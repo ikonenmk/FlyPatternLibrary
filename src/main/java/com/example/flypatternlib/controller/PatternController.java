@@ -4,8 +4,10 @@ import com.example.flypatternlib.model.Pattern;
 import com.example.flypatternlib.repository.PatternRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/pattern")
@@ -37,5 +39,21 @@ public class PatternController {
     public void delete(@PathVariable Integer pattern_id) {
         repository.deleteById(pattern_id);
     }
+
+    //Update a pattern
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{pattern_id}")
+    public void update(@RequestBody Pattern pattern, @PathVariable Integer pattern_id) {
+        //If pattern id not in DB, throw error
+        if(!repository.existsById(pattern_id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pattern not found.");
+        }
+        //If pattern id in request body does not match path variable, throw error
+        if(!Objects.equals(pattern.pattern_id(), pattern_id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pattern not found.");
+        }
+        repository.save(pattern);
+    }
+
 
 }
