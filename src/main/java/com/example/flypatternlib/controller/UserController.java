@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -36,5 +37,17 @@ public class UserController {
         } else {
             return foundUser;
         }
+    }
+
+    //Update user
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{id}")
+    public void update(@RequestBody User user, @PathVariable Integer user_id) {
+        //if user not found in db, throw error
+        if(!repository.existsById(user_id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+        }
+        //If user id not equal to path variable, throw error
+        //CONTINUE HERE: if(!Objects.equals())
     }
 }
