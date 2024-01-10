@@ -37,6 +37,10 @@ public class PatternController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{pattern_id}")
     public void delete(@PathVariable Integer pattern_id) {
+        //if pattern id not found, throw error
+        if(!repository.existsById(pattern_id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pattern not found");
+        }
         repository.deleteById(pattern_id);
     }
 

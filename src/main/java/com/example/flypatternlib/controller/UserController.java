@@ -41,13 +41,29 @@ public class UserController {
 
     //Update user
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{id}")
+    @PutMapping("/{user_id}")
     public void update(@RequestBody User user, @PathVariable Integer user_id) {
         //if user not found in db, throw error
         if(!repository.existsById(user_id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
         }
         //If user id not equal to path variable, throw error
-        //CONTINUE HERE: if(!Objects.equals())
+        if(!Objects.equals(user.user_id(), user_id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        repository.save(user);
     }
+
+    //Delete a user
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{user_id}")
+    public void delete(@PathVariable Integer user_id) {
+        repository.deleteById(user_id);
+        //if user id not found, throw error
+        if(!repository.existsById(user_id)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+    }
+
 }
+

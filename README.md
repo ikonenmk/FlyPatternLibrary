@@ -38,8 +38,8 @@ Det ska finnas en möjlighet för användare att lägga upp egna mönster och s�
 
 ### Användare
 1. Skapa användare (klar)
-2. Ta bort användare baserat på id
-3. Uppdatera användare baserat på id
+2. Ta bort användare baserat på id (klar)
+3. Uppdatera användare baserat på id (klar)
 4. Hämta användare baserat på id (klar)
 
 ### Användarbibliotek
