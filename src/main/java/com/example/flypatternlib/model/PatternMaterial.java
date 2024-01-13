@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 
 public record PatternMaterial(
         @Id
-        Integer id,
+        Integer pattern_material_id,
         Integer pattern_id,
         Integer material_id
 ) {

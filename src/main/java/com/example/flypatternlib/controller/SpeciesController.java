@@ -28,6 +28,7 @@ public class SpeciesController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void add(@RequestBody Species species) {
+
         repository.save(species);
     }
 
