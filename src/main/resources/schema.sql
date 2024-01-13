@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS user_order (
 );
 
 CREATE TABLE IF NOT EXISTS pattern_species (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    pattern_species_id INT PRIMARY KEY AUTO_INCREMENT,
     species_id INT,
     pattern_id INT,
     FOREIGN KEY (species_id) REFERENCES species(species_id),
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS pattern_species (
 );
 
 CREATE TABLE IF NOT EXISTS pattern_material (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    pattern_material_id INT PRIMARY KEY AUTO_INCREMENT,
     material_id INT,
     pattern_id INT,
     FOREIGN KEY (material_id) REFERENCES material(material_id),
@@ -73,3 +73,11 @@ CREATE TABLE IF NOT EXISTS pattern_order (
     FOREIGN KEY (order_id) REFERENCES user_order(order_id),
     FOREIGN KEY (pattern_id) REFERENCES  pattern(pattern_id)
 );
+
+CREATE TABLE IF NOT EXISTS user_pattern (
+    user_pattern_id INT PRIMARY KEY AUTO_INCREMENT,
+    pattern_id INT,
+    user_id INT,
+    FOREIGN KEY (pattern_id) REFERENCES pattern(pattern_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
+)
