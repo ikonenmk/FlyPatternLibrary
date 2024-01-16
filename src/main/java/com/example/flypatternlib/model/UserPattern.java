@@ -1,10 +1,13 @@
 package com.example.flypatternlib.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.jdbc.core.mapping.AggregateReference;
 
-public record UserPattern (
+public class UserPattern {
     @Id
-    Integer user_pattern_id,
-    Integer pattern_id,
-    Integer user_id
-        ){ }
+    Integer pattern;
+
+    UserPattern(Integer pattern) {
+        this.pattern = pattern;
+    }
+}
