@@ -25,8 +25,8 @@ CREATE TABLE IF NOT EXISTS pattern
 
 
 CREATE TABLE IF NOT EXISTS user_pattern (
-    pattern INT,
-    user INT,
+    pattern INT NOT NULL ,
+    user INT NOT NULL,
     primary key (pattern, user)
 
 );
@@ -42,13 +42,28 @@ CREATE TABLE IF NOT EXISTS material (
 );
 
 CREATE TABLE IF NOT EXISTS pattern_material (
-    material INT,
-    pattern INT,
-    primary key (pattern, material)
+    material INT NOT NULL ,
+    pattern INT NOT NULL,
+    PRIMARY KEY  (material, pattern)
 );
 
 CREATE TABLE IF NOT EXISTS pattern_species (
-    species INT,
-    pattern INT,
-    primary key(species, pattern)
+    species INT NOT NULL ,
+    pattern INT NOT NULL,
+    PRIMARY KEY (species, pattern)
+);
+
+CREATE TABLE IF NOT EXISTS user_order (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    total_cost INT NOT NULL,
+    date TIMESTAMP NOT NULL,
+    user INT NOT NULL,
+    FOREIGN KEY (user) REFERENCES user(id)
+);
+
+CREATE TABLE IF NOT EXISTS pattern_order (
+    pattern INT NOT NULL,
+    user_order INT NOT NULL,
+    PRIMARY KEY (pattern, user_order)
+
 );

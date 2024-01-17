@@ -2,7 +2,9 @@ package com.example.flypatternlib.controller;
 
 import com.example.flypatternlib.model.Pattern;
 import com.example.flypatternlib.model.User;
+import com.example.flypatternlib.model.UserOrder;
 import com.example.flypatternlib.repository.PatternRepository;
+import com.example.flypatternlib.repository.UserOrderRepository;
 import com.example.flypatternlib.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +18,12 @@ import java.util.Optional;
 public class UserController {
     private final UserRepository userRepository;
     private final PatternRepository patternRepository;
+    private final UserOrderRepository orderRepository;
 
-    public UserController(UserRepository repository, PatternRepository patternRepository) {
+    public UserController(UserRepository repository, PatternRepository patternRepository, UserOrderRepository orderRepository) {
         this.userRepository = repository;
         this.patternRepository = patternRepository;
+        this.orderRepository = orderRepository;
     }
 
     //Add a new user
@@ -88,6 +92,7 @@ public class UserController {
 
 
     }
+
 
 }
 

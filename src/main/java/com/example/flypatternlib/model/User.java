@@ -14,9 +14,14 @@ public class User {
     private String username;
     private String password;
     private Set<UserPattern> patterns = new HashSet<>(); //Patterns that user has added in library
-
+    private Set<UserOrder> orders = new HashSet<>();
     public void addPattern(Pattern pattern) {
         this.patterns.add(new UserPattern(pattern.getId()));
+    }
+
+    public void addOrder(UserOrder orders)
+    {
+        this.orders.add(orders);
     }
 
     /*private UserPattern createUserPattern(Pattern pattern) {
