@@ -3,10 +3,11 @@ package com.example.flypatternlib.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 
-public record PatternOrder(
+public class PatternOrder {
         @Id
-        Integer id,
-        AggregateReference<Pattern, Integer> pattern,
-        AggregateReference<UserOrder, Integer> order
-) {
+        Integer pattern;
+
+    public PatternOrder(Integer pattern) {
+        this.pattern = pattern;
+    }
 }

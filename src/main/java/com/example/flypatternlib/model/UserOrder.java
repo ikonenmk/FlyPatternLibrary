@@ -4,11 +4,41 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
-public record UserOrder(
+public class UserOrder {
         @Id
-        Integer id,
-        Integer total_cost,
-        LocalDate date,
-        AggregateReference<User, Integer> user
-) { }
+        private Integer id;
+        private Integer total_cost;
+        private LocalDate date;
+        private Set<PatternOrder> patterns = new HashSet<>();
+
+        public void addPatterns(Pattern pattern) {
+                this.patterns.add(new PatternOrder(pattern.getId()));
+        }
+
+        public Integer getId() {
+                return id;
+        }
+
+        public void setId(Integer id) {
+                this.id = id;
+        }
+
+        public Integer getTotal_cost() {
+                return total_cost;
+        }
+
+        public void setTotal_cost(Integer total_cost) {
+                this.total_cost = total_cost;
+        }
+
+        public LocalDate getDate() {
+                return date;
+        }
+
+        public void setDate(LocalDate date) {
+                this.date = date;
+        }
+}
