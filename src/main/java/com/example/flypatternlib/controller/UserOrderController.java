@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/userorder")
@@ -58,5 +59,20 @@ public class UserOrderController {
             userOrder.addPatterns(pattern);
             orderRepository.save(userOrder);
         });
+    }
+
+    //Find order
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @GetMapping("/{order_id}")
+    public Optional<UserOrder> findOrder(@PathVariable Integer order_id) {
+        //Find order by id, return if non-empty
+        Optional<UserOrder> foundOrder = orderRepository.findById(order_id);
+        if(foundOrder.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found");
+        } else {
+            System.out.println(foundOrder);
+            return foundOrder;
+        }
+
     }
 }

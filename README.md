@@ -44,8 +44,8 @@ Det ska finnas en möjlighet för användare att lägga upp egna mönster och s�
 
 ### Användarbibliotek
 
-1. Spara flugmönster till bibliotek
-2. Ta bort flugmönster från bibliotek
+1. Spara flugmönster till bibliotek (klar)
+2. Ta bort flugmönster från bibliotek 
 3. Visa alla flugmönster i bibliotek
 4. Generera lista över material för alla flugmönster i biblioteket, listan sparas inte i DB.
 

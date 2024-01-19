@@ -10,4 +10,8 @@ public class PatternOrder {
     public PatternOrder(Integer pattern) {
         this.pattern = pattern;
     }
+
+    public Integer getPattern() {
+        return pattern;
+    }
 }

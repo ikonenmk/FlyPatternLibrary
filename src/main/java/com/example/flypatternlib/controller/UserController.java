@@ -34,6 +34,7 @@ public class UserController {
     }
 
     //Find user by id
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @GetMapping("/{user_id}")
     public Optional<User> findById(@PathVariable Integer user_id) {
 
