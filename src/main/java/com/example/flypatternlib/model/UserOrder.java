@@ -41,4 +41,22 @@ public class UserOrder {
         public void setDate(LocalDate date) {
                 this.date = date;
         }
+
+        @Override
+        public String toString() {
+                StringBuilder sb = new StringBuilder();
+                sb.append("UserOrder{")
+                        .append("id= ").append(id)
+                        .append(" , total cost = ").append(total_cost)
+                        .append(" , date = ").append(date)
+                        .append(" , patterns = [");
+
+                //append each pattern in patterns to string
+                for(PatternOrder patternOrder: patterns) {
+                        sb.append(patternOrder.getPattern()).append(" , ");
+                }
+
+                sb.append("]}");
+                return sb.toString();
+        }
 }
