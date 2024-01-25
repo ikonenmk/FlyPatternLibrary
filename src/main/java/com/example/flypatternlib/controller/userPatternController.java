@@ -2,10 +2,12 @@ package com.example.flypatternlib.controller;
 
 import com.example.flypatternlib.model.UserPattern;
 import com.example.flypatternlib.repository.UserPatternRepository;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+@AutoConfiguration
 @RestController
 @RequestMapping("/api/userpattern")
 public class userPatternController {

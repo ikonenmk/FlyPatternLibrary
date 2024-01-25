@@ -2,15 +2,19 @@ package com.example.flypatternlib.controller;
 
 import com.example.flypatternlib.model.Material;
 import com.example.flypatternlib.repository.MaterialRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@AutoConfiguration
 @RestController
 @RequestMapping("/api/material")
 public class MaterialController {
+
     private final MaterialRepository repository;
 
     public MaterialController(MaterialRepository repository) {

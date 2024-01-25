@@ -2,12 +2,13 @@ package com.example.flypatternlib.controller;
 
 import com.example.flypatternlib.model.Species;
 import com.example.flypatternlib.repository.SpeciesRepository;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-
+@AutoConfiguration
 @RestController
 @RequestMapping("/api/species")
 public class SpeciesController {

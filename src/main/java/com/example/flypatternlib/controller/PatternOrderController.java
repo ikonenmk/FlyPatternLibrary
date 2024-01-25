@@ -1,9 +1,11 @@
 package com.example.flypatternlib.controller;
 
 import com.example.flypatternlib.repository.PatternOrderRepository;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@AutoConfiguration
 @RestController
 @RequestMapping("/api/patternorder")
 public class PatternOrderController {
