@@ -6,6 +6,7 @@ import com.example.flypatternlib.model.UserOrder;
 import com.example.flypatternlib.repository.PatternRepository;
 import com.example.flypatternlib.repository.UserOrderRepository;
 import com.example.flypatternlib.repository.UserRepository;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Objects;
 import java.util.Optional;
 
+@AutoConfiguration
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
