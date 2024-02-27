@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-@AutoConfiguration
 @RestController
 @RequestMapping("/api/pattern")
 public class PatternController {

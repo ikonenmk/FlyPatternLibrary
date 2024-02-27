@@ -1,38 +1,42 @@
 package com.example.flypatternlib.controller;
 
+import com.example.flypatternlib.model.UserRegRequest;
 import com.example.flypatternlib.model.Pattern;
 import com.example.flypatternlib.model.User;
-import com.example.flypatternlib.model.UserOrder;
 import com.example.flypatternlib.repository.PatternRepository;
 import com.example.flypatternlib.repository.UserOrderRepository;
 import com.example.flypatternlib.repository.UserRepository;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import com.example.flypatternlib.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Objects;
 import java.util.Optional;
 
-@AutoConfiguration
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
     private final UserRepository userRepository;
     private final PatternRepository patternRepository;
     private final UserOrderRepository orderRepository;
+    private final UserService userService;
+    private final JdbcUserDetailsManager jdbcUserDetailsManager;
 
-    public UserController(UserRepository repository, PatternRepository patternRepository, UserOrderRepository orderRepository) {
+    public UserController(UserRepository repository, PatternRepository patternRepository, UserOrderRepository orderRepository, UserService userService, JdbcUserDetailsManager jdbcUserDetailsManager) {
         this.userRepository = repository;
         this.patternRepository = patternRepository;
         this.orderRepository = orderRepository;
+        this.userService = userService;
+        this.jdbcUserDetailsManager = jdbcUserDetailsManager;
     }
 
-    //Add a new user
+    //Register a new user
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public void add(@RequestBody User user) {
-        userRepository.save(user);
+    @PostMapping("/register")
+    public void register(@RequestBody UserRegRequest userRegRequest) {
+        userService.addUser(userRegRequest);
     }
 
     //Find user by id

@@ -2,17 +2,18 @@ package com.example.flypatternlib.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-
+@Table
 public class UserOrder {
         @Id
         private Integer id;
         private Integer total_cost;
         private LocalDate date;
-        private Set<PatternOrder> patterns = new HashSet<>();
+        private final Set<PatternOrder> patterns = new HashSet<>();
 
         public void addPatterns(Pattern pattern) {
                 this.patterns.add(new PatternOrder(pattern.getId()));

@@ -4,11 +4,13 @@ import com.example.flypatternlib.model.Species;
 import com.example.flypatternlib.repository.SpeciesRepository;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-@AutoConfiguration
+
 @RestController
 @RequestMapping("/api/species")
 public class SpeciesController {
@@ -26,9 +28,11 @@ public class SpeciesController {
     }
 
     //Add a new species
+    @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void add(@RequestBody Species species) {
+        System.out.println("Received request to add species: " + species.getName());
 
         repository.save(species);
     }

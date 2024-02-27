@@ -1,20 +1,21 @@
 package com.example.flypatternlib.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.util.Assert;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+@Table
 public class User {
     @Id
     private Integer id;
     private String email;
     private String username;
     private String password;
-    private Set<UserPattern> patterns = new HashSet<>(); //Patterns that user has added in library
-    private Set<UserOrder> orders = new HashSet<>();
+    private final Set<UserPattern> patterns = new HashSet<>(); //Patterns that user has added in library
+    private final Set<UserOrder> orders = new HashSet<>();
     public void addPattern(Pattern pattern) {
         this.patterns.add(new UserPattern(pattern.getId()));
     }
