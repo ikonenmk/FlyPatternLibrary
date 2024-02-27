@@ -1,7 +1,6 @@
 package com.example.flypatternlib.repository;
 
 import com.example.flypatternlib.model.Material;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 

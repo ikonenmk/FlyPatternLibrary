@@ -2,10 +2,7 @@ package com.example.flypatternlib.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
-import org.springframework.util.Assert;
-
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 @Table
 public class User {
