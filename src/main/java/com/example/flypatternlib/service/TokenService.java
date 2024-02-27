@@ -1,5 +1,4 @@
 package com.example.flypatternlib.service;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
