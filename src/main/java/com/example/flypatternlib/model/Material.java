@@ -1,9 +1,11 @@
 package com.example.flypatternlib.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.List;
 
+@Table
 public class Material {
         @Id
         private Integer id;

@@ -2,6 +2,7 @@ package com.example.flypatternlib.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
+import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.util.Assert;
 
@@ -11,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Table
 public class Pattern {
     @Id
     private Integer id;

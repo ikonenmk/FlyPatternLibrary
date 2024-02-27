@@ -10,7 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@AutoConfiguration
 @RestController
 @RequestMapping("/api/material")
 public class MaterialController {
