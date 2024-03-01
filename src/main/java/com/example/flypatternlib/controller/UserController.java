@@ -33,6 +33,7 @@ public class UserController {
     }
 
     //Register a new user
+    @CrossOrigin
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register")
     public void register(@RequestBody UserRegRequest userRegRequest) {
