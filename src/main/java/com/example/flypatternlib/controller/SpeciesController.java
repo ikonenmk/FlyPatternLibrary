@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/species")
 public class SpeciesController {
