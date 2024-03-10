@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
  * endpoint that should be used to make the api call
  * **/
 export default function SearchField({endpoint}) {
-    //Load data available in DB
+    //Load available data into const availableData
     const [availableData, setAvailableData] = useState([]);
     const token = Cookies.get("token");
     const config = {
@@ -24,9 +24,7 @@ export default function SearchField({endpoint}) {
             .catch((error) => {
                 console.log('Axios request error: ', error);
             });
-    }, []); // Empty dependency array means it will run once when the component mounts
-
-
+    }, []);
 
 
     const [value, setValue] = useState("");

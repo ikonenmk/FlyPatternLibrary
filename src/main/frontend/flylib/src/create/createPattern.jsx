@@ -1,4 +1,4 @@
-import SearchField from "./searchField.jsx";
+import SearchField from "../common/searchField.jsx";
 
 export default function CreatePattern() {
     return (
