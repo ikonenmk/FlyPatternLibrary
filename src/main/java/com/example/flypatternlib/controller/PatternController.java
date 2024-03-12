@@ -1,29 +1,38 @@
 package com.example.flypatternlib.controller;
 
+import com.example.flypatternlib.DTO.FlyTypeDTO;
 import com.example.flypatternlib.model.Material;
 import com.example.flypatternlib.model.Pattern;
+import com.example.flypatternlib.model.PatternSpecies;
 import com.example.flypatternlib.model.Species;
 import com.example.flypatternlib.repository.MaterialRepository;
 import com.example.flypatternlib.repository.PatternRepository;
 import com.example.flypatternlib.repository.SpeciesRepository;
+import com.example.flypatternlib.service.PatternService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/pattern")
 public class PatternController {
 
     private final PatternRepository patternRepository;
     private final MaterialRepository materialRepository;
     private final SpeciesRepository speciesRepository;
+    private final PatternService patternService;
 
-    public PatternController(PatternRepository patternRepository, MaterialRepository materialRepository, SpeciesRepository speciesRepository) {
+    public PatternController(PatternRepository patternRepository, MaterialRepository materialRepository, SpeciesRepository speciesRepository, PatternService patternService) {
         this.patternRepository = patternRepository;
         this.materialRepository = materialRepository;
         this.speciesRepository = speciesRepository;
+        this.patternService = patternService;
     }
 
     //Find all patterns in database
@@ -71,6 +80,12 @@ public class PatternController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Pattern not found.");
         }
         patternRepository.save(pattern);
+    }
+
+    //Find all types
+    @GetMapping("/types")
+    public List<FlyTypeDTO> findAllTypes() {
+        return patternService.findAllTypes();
     }
 
 
