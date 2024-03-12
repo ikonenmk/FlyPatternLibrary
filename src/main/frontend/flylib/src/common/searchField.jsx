@@ -20,14 +20,12 @@ export default function SearchField({endpoint}) {
             .get(`http://localhost:8080/api/${endpoint}`, config)
             .then((response) => {
                 setAvailableData(response.data);
+                console.log(response.data);
             })
             .catch((error) => {
                 console.log('Axios request error: ', error);
             });
     }, []);
-
-
-    const [value, setValue] = useState("");
 
     //Handle submit
     const handleSubmit = (e) => {
@@ -36,10 +34,8 @@ export default function SearchField({endpoint}) {
     }
         return (
             <form onSubmit={handleSubmit}>
-                <label>Species</label>
-                <ReactSearchAutocomplete items={availableData}
+                <ReactSearchAutocomplete items={availableData} id={endpoint}
                 />
-                <input type="submit" value="Submit" />
             </form>
         )
 }
