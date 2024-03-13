@@ -1,4 +1,4 @@
-# FlyPatternLibrary
+# FlyPatternLibrary (Pågående projekt, ej klart utan under arbete)
 
 ## Beskrivning
 
