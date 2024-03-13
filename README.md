@@ -2,7 +2,7 @@
 
 ## Beskrivning
 
-Backend för en webbapplikation där användare kan söka i en databas efter flugbindningsmönster baserat på bl.a. fiskart, typ av fluga (t.ex. torrfluga, våtfluga m.m.) och på en kombination av flugbidningsmaterial.
+Webbapplikation där användare kan söka i en databas efter flugbindningsmönster baserat på bl.a. fiskart, typ av fluga (t.ex. torrfluga, våtfluga m.m.) och på en kombination av flugbidningsmaterial.
 
 Ett flugmönster består oftast av en bild, en lista på material som krävs för att binda flugan, en beskrivning av hur man binder flugan och ofta lite historisk bakgrund eller annan information om hur man fiskar flugan bäst.
 
