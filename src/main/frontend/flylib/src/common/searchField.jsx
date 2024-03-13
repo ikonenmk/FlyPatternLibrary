@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 /** Input field with autocomplete based on stored data, takes a parameter ("endpoint") for which
  * endpoint that should be used to make the api call
  * **/
-export default function SearchField({endpoint}) {
+export default function SearchField({endpoint, setAutoSearchValue}) {
     //Load available data into const availableData
     const [availableData, setAvailableData] = useState([]);
     const token = Cookies.get("token");
@@ -27,15 +27,22 @@ export default function SearchField({endpoint}) {
             });
     }, []);
 
-    //Handle submit
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(value);
+
+    //Handlers
+    const handleOnSearch = (item) => {
+        console.log(item);
+        setAutoSearchValue(item);
+    }
+    const handleOnSelect = (item) => {
+        console.log(item.name);
+        setAutoSearchValue(item.name);
     }
         return (
-            <form onSubmit={handleSubmit}>
+
                 <ReactSearchAutocomplete items={availableData} id={endpoint}
+                                         onSearch={handleOnSearch}
+                                         onSelect={handleOnSelect}
                 />
-            </form>
+
         )
 }
