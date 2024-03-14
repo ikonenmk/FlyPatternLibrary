@@ -15,10 +15,21 @@ export default function CreatePattern() {
     const [species, setSpecies] = useState([]);
     const [types, setTypes] = useState([]);
 
-    const [autoSearchInput, setAutoSearchInput] = useState("");
+    const [searchInputArray, setSearchInputArray] = useState([]);
 
-    const setAutoSearchValue = (newValue) => {
-        setAutoSearchInput(newValue);
+    //Function for updating material, species, types arrays based on events in SearchField component
+    const setSearchInput = (updatedArray, endpointString) => {
+        //Update array based on endpoint
+        if (endpointString === "pattern/types") {
+            setTypes(updatedArray);
+        }
+        if (endpointString === "material") {
+            setMaterials(updatedArray);
+        }
+        if (endpointString === "species") {
+            setSpecies(updatedArray);
+        }
+        setSearchInputArray(updatedArray);
     }
     //Handlers
     const handleIsForSaleCheckBoxChange = () => {
@@ -41,7 +52,7 @@ export default function CreatePattern() {
             </div>
             <div>
                 <label>Type of fly</label>
-                <SearchField endpoint='pattern/types' setAutoSearchValue={setAutoSearchValue}/>
+                <SearchField endpoint='pattern/types' setSearchInput={setSearchInput}/>
             </div>
             <div>
                 <label>Hooke size</label>
@@ -52,13 +63,11 @@ export default function CreatePattern() {
             </div>
             <div>
                 <label>Material</label>
-                <SearchField endpoint="material" setAutoSearchValue={setAutoSearchValue}/>
-                <button>Add</button>
+                <SearchField endpoint="material" setSearchInput={setSearchInput}/>
             </div>
             <div>
                 <label>Species</label>
-                <SearchField endpoint="species" setAutoSearchValue={setAutoSearchValue}/>
-                <button>Add</button>
+                <SearchField endpoint="species" setSearchInput={setSearchInput}/>
             </div>
             <div>
                 <label>Description</label>
