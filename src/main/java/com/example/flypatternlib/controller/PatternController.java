@@ -13,10 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -46,14 +43,9 @@ public class PatternController {
     //Add a new pattern
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public void add(@RequestBody Pattern pattern, @RequestParam Integer species_id, @RequestParam Integer material_id) {
-        Material material = materialRepository.findById(material_id)
-                        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "material not found"));
-        Species species = speciesRepository.findById(species_id)
-                        .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "species not found"));
-        pattern.addMaterial(material);
-        pattern.addSpecies(species);
-        patternRepository.save(pattern);
+    public void add(@RequestBody Pattern pattern, @RequestParam("speciesArray") String[] speciesArray, @RequestParam("materialsArray") String[] materialsArray) {
+        //Add pattern to DB
+        patternService.addPattern(pattern, speciesArray, materialsArray);
     }
 
     //Delete a pattern
