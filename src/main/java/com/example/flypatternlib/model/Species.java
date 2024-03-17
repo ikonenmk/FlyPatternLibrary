@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table
-public class Species {
+public class Species extends PatternObject{
         @Id
         private Integer id;
         private String name;

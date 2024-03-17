@@ -20,7 +20,6 @@ export default function SearchField({endpoint, setSearchInput}) {
             .get(`http://localhost:8080/api/${endpoint}`, config)
             .then((response) => {
                 setAvailableData(response.data);
-                console.log(response.data);
             })
             .catch((error) => {
                 console.log('Axios request error: ', error);

@@ -5,7 +5,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 
 @Table
-public class Material {
+public class Material extends PatternObject{
         @Id
         private Integer id;
         private String name;
