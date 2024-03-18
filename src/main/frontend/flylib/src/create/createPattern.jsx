@@ -3,7 +3,7 @@ import {useState} from "react";
 import SelectList from "../common/selectList.jsx";
 import axios from "axios";
 import Cookies from "js-cookie";
-import error from "eslint-plugin-react/lib/util/error.js";
+import "./createPattern.css";
 
 export default function CreatePattern() {
     //Data for auth
@@ -97,44 +97,49 @@ export default function CreatePattern() {
 
     return (
         <>
-            <div>
-                <label>Pattern name</label>
-                <input type="text" id="formInputText" onChange={(e) => setPatternName(e.target.value)}/>
-            </div>
-            <div>
-                <label>Type of fly</label>
+            <div className="create-form">
+            <fieldset>
+                <legend>Pattern name</legend>
+                <input type="text" className="form-input-text" onChange={(e) => setPatternName(e.target.value)}/>
+            </fieldset>
+            <fieldset>
+                <legend>Type of fly</legend>
                 <SelectList endpoint="pattern/types" setSelectOptionValue={setSelectOptionValue}/>
-            </div>
-            <div>
-                <label>Hooke size</label>
-                <label>from</label>
-                <input type="text" id="formInputText" onChange={(e) => setHookSizeFrom(e.target.value)} />
-                <label>to</label>
-                <input type="text" id="formInputText" onChange={(e)=> setHookSizeTo(e.target.value)} />
-            </div>
-            <div>
-                <label>Material</label>
+            </fieldset>
+            <fieldset>
+                <legend>Image</legend>
+
+            </fieldset>
+            <fieldset>
+                <legend>Hook size</legend>
+                <label>From: </label>
+                <input type="text" className="form-input-text" onChange={(e) => setHookSizeFrom(e.target.value)} />
+                <label> To: </label>
+                <input type="text" className="form-input-text" onChange={(e)=> setHookSizeTo(e.target.value)} />
+            </fieldset>
+            <fieldset>
+                <legend>Material</legend>
                 <SearchField endpoint="material" setSearchInput={setSearchInput}/>
-            </div>
-            <div>
-                <label>Species</label>
+            </fieldset>
+            <fieldset>
+                <legend>Species</legend>
                 <SearchField endpoint="species" setSearchInput={setSearchInput}/>
-            </div>
-            <div>
-                <label>Description</label>
-                <textarea id="formTextarea" onChange={(e) => setDescription(e.target.value)}></textarea>
-            </div>
-            <div>
-                <label>Tying instructions</label>
-                <textarea id="formTextarea" onChange={(e) => setInstruction(e.target.value)}></textarea>
-            </div>
-            <div>
+            </fieldset>
+            <fieldset>
+                <legend>Description</legend>
+                <textarea className="form-textarea" onChange={(e) => setDescription(e.target.value)}></textarea>
+            </fieldset>
+            <fieldset>
+                <legend>Tying instructions</legend>
+                <textarea className="form-textarea" onChange={(e) => setInstruction(e.target.value)}></textarea>
+            </fieldset>
+            <fieldset>
                 <label>For sale</label>
-                <input id="forSaleCheckbox" type="checkbox" onChange={handleIsForSaleCheckBoxChange} />
+                <input className="for-sale-checkbox" type="checkbox" onChange={handleIsForSaleCheckBoxChange} />
                 {isForSale && <label>Price</label>}
-                {isForSale && <input  type="text" id="formInputText" onChange={(e) => setPrice(e.target.value)} />}
-            </div>
-            <div>
+                {isForSale && <input  type="text" className="form-input-text" onChange={(e) => setPrice(e.target.value)} />}
+            </fieldset>
+
                 <button onClick={handleSubmit}>Upload pattern</button>
             </div>
         </>

@@ -1,0 +1,29 @@
+
+.create-form {
+    background-color: #dddddd;
+    color: black;
+    padding: 5px;
+}
+.form-input-text{
+    background-color: white;
+    color:black;
+    padding: 5px;
+}
+.form-textarea{
+    background-color: white;
+    color: black;
+    padding: 5px;
+    min-width: 95%;
+    min-height: 180px;
+}
+
+ul {
+    background-color: white;
+}
+
+fieldset {
+    border-color: #213547;
+}
+
+
+

@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
-
+import "./selectList.css"
 export default function SelectList ({endpoint, setSelectOptionValue}) {
     //Get data from DB
     const token = Cookies.get("token");
@@ -25,7 +25,7 @@ export default function SelectList ({endpoint, setSelectOptionValue}) {
 
     //Const for selected value
     return(
-            <select
+            <select className="select-type"
                 onChange={e => setSelectOptionValue(e.target.value)}
             >
                 {selectListData.map((type) =>
