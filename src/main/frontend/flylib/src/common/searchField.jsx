@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {ReactSearchAutocomplete} from "react-search-autocomplete";
 import Cookies from "js-cookie";
+import "./searchField.css"
 
 /** Input field with autocomplete based on stored data, takes a parameter ("endpoint") for which
  * endpoint that should be used to make the api call
@@ -60,12 +61,19 @@ export default function SearchField({endpoint, setSearchInput}) {
 
         return (
             <>
+                <div className="search-field">
                 <ReactSearchAutocomplete items={availableData} id={endpoint}
                                           onSearch={handleOnSearch}
                                           onSelect={handleOnSelect}
+                                          styling={
+                                            {color: "black"}
+                                          }
                 />
-                <button id="button" onClick={handleAddButton}>Add</button>
-                {searchStringArray.map((value, index) => <button key={index} onClick={() =>handleButtonClick(index)}>{value}</button>)}
+                </div>
+                <div className="button-container">
+                <button className="add-button" onClick={handleAddButton}>Add</button>
+                {searchStringArray.map((value, index) => <button className="delete-button" key={index} onClick={() =>handleButtonClick(index)}>{value}</button>)}
+                </div>
             </>
 
         )

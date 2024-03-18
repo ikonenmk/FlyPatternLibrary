@@ -1,0 +1,25 @@
+.add-button {
+    background-color: #213547;
+    min-height: 40px;
+}
+.add-button:hover {
+
+    background-color: green;
+}
+.delete-button {
+    background-color: white;
+    color: black;
+    min-width: 80px;
+    min-height: 40px;
+}
+.delete-button:hover {
+    background-color: red;
+    "test";
+}
+
+.button-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    margin: 5px;
+}
