@@ -1,5 +1,4 @@
 package com.example.flypatternlib.service;
-
 import com.example.flypatternlib.DTO.FlyTypeDTO;
 import com.example.flypatternlib.model.Material;
 import com.example.flypatternlib.model.Pattern;
@@ -64,7 +63,7 @@ public class PatternService {
         }
 
         if(speciesArray != null) {
-            for (int i = 0; i < materialsArray.length; i++) {
+            for (int i = 0; i < speciesArray.length; i++) {
                 Species species = (Species) addObject("species", speciesArray[i].toLowerCase());
                 speciesToAdd.add(species);
             }
