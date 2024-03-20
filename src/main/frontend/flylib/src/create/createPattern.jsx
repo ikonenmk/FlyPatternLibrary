@@ -1,5 +1,5 @@
 import SearchField from "../common/searchField.jsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import SelectList from "../common/selectList.jsx";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -27,6 +27,19 @@ export default function CreatePattern() {
     const [imgUrl, setImgUrl] = useState("");
     const [type, setType] = useState("");
     const [searchInputArray, setSearchInputArray] = useState([]);
+    //get username from server
+    const [username, setUsername] = useState("");
+    useEffect(() => {
+        axios
+            .get('http://localhost:8080/api/auth/username', config)
+            .then((response) => {
+                console.log(response.data);
+                setUsername(response.data);
+            })
+            .catch((error) => {
+                console.log('Axios request error: ', error);
+            });
+    }, []);
 
     //Function for updating material and species arrays based on events in SearchField component
     const setSearchInput = (updatedArray, endpointString) => {
@@ -111,11 +124,9 @@ export default function CreatePattern() {
 
             </fieldset>
             <fieldset>
-                <legend>Hook size</legend>
-                <label>From: </label>
-                <input type="text" className="form-input-text" onChange={(e) => setHookSizeFrom(e.target.value)} />
-                <label> To: </label>
-                <input type="text" className="form-input-text" onChange={(e)=> setHookSizeTo(e.target.value)} />
+                <legend className="hook-container">Hook size</legend>
+                   <input type="text" className="form-input-text" onChange={(e) => setHookSizeFrom(e.target.value)} />
+                   <input type="text" className="form-input-text" onChange={(e)=> setHookSizeTo(e.target.value)} />
             </fieldset>
             <fieldset>
                 <legend>Material</legend>
