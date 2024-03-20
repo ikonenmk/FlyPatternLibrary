@@ -29,7 +29,7 @@ export default function LoginForm() {
             setSubmitted(true);
 
             //Post request to backend
-            axios.post('http://localhost:8080/token', {
+            axios.post('http://localhost:8080/api/auth/token', {
                 username: username,
                 password: password
             })

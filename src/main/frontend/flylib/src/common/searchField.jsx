@@ -68,6 +68,7 @@ export default function SearchField({endpoint, setSearchInput}) {
                                           styling={
                                             {color: "black"}
                                           }
+                                         placeholder={`Type in ${endpoint}`}
                 />
                 </div>
                 <div className="button-container">

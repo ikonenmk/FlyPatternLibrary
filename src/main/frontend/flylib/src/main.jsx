@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client'
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import './index.css'
 import Home from "./home/home.jsx"
-import {StateProvider} from "./testcomponents/store.jsx";
 import NavBarTop from "./common/navBarTop.jsx";
 import Error from "./common/error.jsx";
 import Login from "./login/login.jsx"
