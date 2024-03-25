@@ -19,6 +19,7 @@ public class Pattern {
     private String img_url;
     private Boolean for_sale;
     private Integer price;
+    private String created_by_user;
     private LocalDateTime created;
     private Set<PatternMaterial> materials = new HashSet<>(); //materials in pattern
     private Set<PatternSpecies> species = new HashSet<>(); //species pattern is tied for
@@ -133,5 +134,13 @@ public class Pattern {
 
     public void setSpecies(Set<PatternSpecies> species) {
         this.species = species;
+    }
+
+    public String getCreated_by_user() {
+        return created_by_user;
+    }
+
+    public void setCreated_by_user(String created_by_user) {
+        this.created_by_user = created_by_user;
     }
 }
