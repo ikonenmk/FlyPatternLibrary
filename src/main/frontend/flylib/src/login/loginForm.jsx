@@ -1,6 +1,7 @@
 import {useState} from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
+import {InputValidation} from "../utils/inputValidation.jsx";
 export default function LoginForm() {
 
     /** States **/
@@ -27,7 +28,6 @@ export default function LoginForm() {
             setSubmitted(false);
         } else {
             setSubmitted(true);
-
             //Post request to backend
             axios.post('http://localhost:8080/api/auth/token', {
                 username: username,

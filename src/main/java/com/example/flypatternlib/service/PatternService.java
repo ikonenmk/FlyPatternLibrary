@@ -7,8 +7,9 @@ import com.example.flypatternlib.model.Species;
 import com.example.flypatternlib.repository.MaterialRepository;
 import com.example.flypatternlib.repository.PatternRepository;
 import com.example.flypatternlib.repository.SpeciesRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
+import com.example.flypatternlib.model.User;
 import java.util.*;
 
 @Service
@@ -17,11 +18,13 @@ public class PatternService {
     final PatternRepository patternRepository;
     final SpeciesRepository speciesRepository;
     final MaterialRepository materialRepository;
+    final UserService userService;
 
-    public PatternService(PatternRepository repository, SpeciesRepository speciesRepository, MaterialRepository materialRepository) {
+    public PatternService(PatternRepository repository, SpeciesRepository speciesRepository, MaterialRepository materialRepository, UserService userService) {
         this.patternRepository = repository;
         this.speciesRepository = speciesRepository;
         this.materialRepository = materialRepository;
+        this.userService = userService;
     }
 
     //Find a pattern by fly type
@@ -78,6 +81,7 @@ public class PatternService {
         }
         //Save pattern to DB
         patternRepository.save(pattern);
+
     }
 
     //Method returning a PatternObject based on stated type of object
