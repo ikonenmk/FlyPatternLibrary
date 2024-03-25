@@ -1,24 +1,16 @@
 create table if not exists users(
-                      username VARCHAR (50) not null primary key,
+                      username VARCHAR (100) not null primary key,
                       password VARCHAR(500) not null,
                       enabled boolean not null
 );
 
 create table if not exists authorities (
-                             username VARCHAR(50) not null,
+                             username VARCHAR(100) not null,
                              authority VARCHAR(50) not null,
                              constraint fk_authorities_users foreign key(username) references users(username)
 );
-/*create unique index ix_auth_username on authorities (username,authority);*/
+/*Only run at first compile: create unique index ix_auth_username on authorities (username,authority);*/
 
-CREATE TABLE IF NOT EXISTS user
-(
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR(255) NOT NULL,
-    username VARCHAR(255) NOT NULL,
-    password VARCHAR(255) NOT NULL
-
-);
 
 CREATE TABLE IF NOT EXISTS pattern
     (
@@ -32,6 +24,7 @@ CREATE TABLE IF NOT EXISTS pattern
          img_url VARCHAR(250) NOT NULL,
          for_sale TINYINT(1) NOT NULL,
          price INT,
+         created_by_user VARCHAR(100) NOT NULL,
          created TIMESTAMP NOT NULL
     );
 
@@ -39,8 +32,8 @@ CREATE TABLE IF NOT EXISTS pattern
 
 CREATE TABLE IF NOT EXISTS user_pattern (
     pattern INT NOT NULL ,
-    user INT NOT NULL,
-    primary key (pattern, user)
+    users VARCHAR(100) NOT NULL,
+    primary key (pattern, users)
 
 );
 
@@ -70,8 +63,8 @@ CREATE TABLE IF NOT EXISTS user_order (
     id INT PRIMARY KEY AUTO_INCREMENT,
     total_cost INT NOT NULL,
     date TIMESTAMP NOT NULL,
-    user INT NOT NULL,
-    FOREIGN KEY (user) REFERENCES user(id)
+    user VARCHAR(100) NOT NULL,
+    FOREIGN KEY (user) REFERENCES users(username)
 );
 
 CREATE TABLE IF NOT EXISTS pattern_order (

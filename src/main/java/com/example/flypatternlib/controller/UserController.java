@@ -8,6 +8,7 @@ import com.example.flypatternlib.repository.UserOrderRepository;
 import com.example.flypatternlib.repository.UserRepository;
 import com.example.flypatternlib.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -40,45 +41,19 @@ public class UserController {
         userService.addUser(userRegRequest);
     }
 
-    //Find user by id
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @GetMapping("/{user_id}")
-    public Optional<User> findById(@PathVariable Integer user_id) {
 
-        //Search for user id, return only if Optional<User> is non-empty
-        Optional<User> foundUser = userRepository.findById(user_id);
-        if (foundUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
-        } else {
-            return foundUser;
-        }
+    @CrossOrigin
+    @GetMapping("/finduser")
+    public Boolean findById(@RequestParam String username) {
+        // Check if username exists, returns true or false
+        return userService.findUser(username);
     }
 
     //Update user
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{user_id}")
-    public void update(@RequestBody User user, @PathVariable Integer user_id) {
-        //if user not found in db, throw error
-        if(!userRepository.existsById(user_id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
-        }
-        //If user id not equal to path variable, throw error
-        if(!Objects.equals(user.getId(), user_id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-        userRepository.save(user);
-    }
+
 
     //Delete a user
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{user_id}")
-    public void delete(@PathVariable Integer user_id) {
-        //if user id not found, throw error
-        if(!userRepository.existsById(user_id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-        }
-        userRepository.deleteById(user_id);
-    }
+
 
     //Add pattern to User's library
     @ResponseStatus(HttpStatus.NO_CONTENT)

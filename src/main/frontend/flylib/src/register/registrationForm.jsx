@@ -1,5 +1,6 @@
 import {useState} from "react";
 import axios from "axios";
+import {InputValidation} from "../utils/inputValidation.jsx";
 
 export default function RegistrationForm() {
 
@@ -13,7 +14,13 @@ export default function RegistrationForm() {
     /** Handlers **/
     //Handling change of username
     const handleUsername = (e) => {
-        setUsername(e.target.value);
+        const user = e.target.value;
+        const userIsValid = InputValidation(user, "email");
+        console.log(userIsValid);
+           //console.log(InputValidation(e.target.value, "email"));
+
+            setUsername(e.target.value);
+        //TODO: add a check useState for each field that sets it to false if any field is not OK
     }
     //Handling change of password
     const handlePassword = (e) => {
@@ -27,7 +34,7 @@ export default function RegistrationForm() {
             setSubmitted(false);
         } else {
             setSubmitted(true);
-
+            //TODO: add an if statement that checks if the checking state is true, then go on with request
             //Post request to backend
             axios.post('http://localhost:8080/api/user/register', {
                 username: username,
