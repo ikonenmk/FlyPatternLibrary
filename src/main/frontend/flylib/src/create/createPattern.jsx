@@ -40,7 +40,7 @@ export default function CreatePattern() {
                 console.log('Axios request error: ', error);
             });
     }, []);
-
+    
     //Function for updating material and species arrays based on events in SearchField component
     const setSearchInput = (updatedArray, endpointString) => {
         //Update array based on endpoint
@@ -79,14 +79,13 @@ export default function CreatePattern() {
             "img_url": imgUrl,
             "for_sale": isForSale,
             "price" : price,
-            "created": dateTime,
-            "user_id": 1 //TODO: hardcoded
+            "created_by_user" : username,
+            "created": dateTime
         }
         //Send request to add pattern to DB
         // Convert arrays to comma separated strings to match endpoint
         const speciesString = species.join(",");
         const materialsString = materials.join(",");
-
         // Construct query string
         const queryString = `speciesArray=${encodeURIComponent(speciesString)}&materialsArray=${encodeURIComponent(materialsString)}`;
 

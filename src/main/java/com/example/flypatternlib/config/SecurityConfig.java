@@ -62,8 +62,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth-> auth
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/token").permitAll()
+                        .requestMatchers("/api/auth/token").permitAll()
                         .requestMatchers("/api/user/register").permitAll()
+                        .requestMatchers("/api/user/finduser").permitAll()
                         .anyRequest().authenticated()
                 )
                 //Add an oauth2 reserouce server with support for JWT-token
