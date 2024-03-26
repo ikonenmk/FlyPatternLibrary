@@ -18,6 +18,6 @@ Det ska finnas en möjlighet för användare att lägga upp egna mönster och s�
 
 ## ER-diagram över databas
 
-![image](https://github.com/ikonenmk/FlyPatternLibrary/assets/153864857/748e2d05-6fb8-487f-8038-f6ed91dee926)
+![er](https://github.com/ikonenmk/FlyPatternLibrary/assets/153864857/2980c7ca-45f3-43dc-8f11-28e05242fd4b)
 
 
