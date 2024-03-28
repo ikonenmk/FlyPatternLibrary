@@ -24,7 +24,6 @@ export default function RegistrationForm() {
         setUsername(e.target.value);
         const user = e.target.value;
         const userIsValid = await InputValidation(user, "email");
-        console.log(userIsValid);
         if (userIsValid !== true) {
             setEmailError(true);
             setEmailErrorMsg(userIsValid);
@@ -32,7 +31,6 @@ export default function RegistrationForm() {
             setEmailError(false);
         }
 
-        //TODO: add a check useState for each field that sets it to false if any field is not OK
     }
     //Handling change of password
     const handlePassword = async (e) => {
@@ -52,7 +50,6 @@ export default function RegistrationForm() {
                    username: username, password: password
                });
                //Check response status of post
-               console.log(registerNewUser.status);
                if(registerNewUser.status === 201) {
                    setSubmitted(true);
                } else {
