@@ -1,6 +1,6 @@
 create table if not exists users(
                       username VARCHAR (100) not null primary key,
-                      password VARCHAR(500) not null,
+                      password VARCHAR(50) not null,
                       enabled boolean not null
 );
 

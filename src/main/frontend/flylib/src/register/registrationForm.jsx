@@ -55,14 +55,17 @@ export default function RegistrationForm() {
                 setEmailError(false);
             }
         } else {
-            if(inputType === "email") {
-                setUsername(inputString);
-                setEmailError(false);
-            } else if (inputType === "password") {
-                setPassword(inputString)
-                setPassError(false);
+            switch(inputType) {
+                case "email":
+                    setUsername(inputString);
+                    setEmailError(false);
+                    break;
+                case "password":
+                    setPassword(inputString)
+                    setPassError(false);
+                    break;
             }
-            }
+        }
     }
     // Handling change of password
     const handlePassword = async (e) => {
