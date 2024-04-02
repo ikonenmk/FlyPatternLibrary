@@ -20,21 +20,60 @@ export default function RegistrationForm() {
 
     /** Handlers **/
     //Handling change of username
-    const handleUsername = async (e) => {
-        setUsername(e.target.value);
-        const user = e.target.value;
-        const userIsValid = await InputValidation(user, "email");
-        if (userIsValid !== true) {
-            setEmailError(true);
-            setEmailErrorMsg(userIsValid);
+    const handleInput = async (e) => {
+        const inputString = e.target.value; // set inputString to input value
+        const inputType = e.target.id; //set inputType based on input element id
+        // Check if user is not empty, then validate username
+        if (inputString !== "") {
+            if(inputType === "email") {
+                setUsername(inputString);
+            } else if (inputType === "password") {
+                setPassword(inputString)
+            }
+            const inputIsValid = await InputValidation(inputString, inputType);
+            //If validation fails, set error messages
+            if (inputIsValid !== true) {
+                switch (inputType) {
+                    case "email":
+                        setEmailError(true);
+                        setEmailErrorMsg(inputIsValid);
+                        break;
+                    case "password":
+                        setPassError(true);
+                        setPassErrorMsg(inputIsValid);
+                        break;
+                }
+            } else {
+                switch(inputType) {
+                    case "email":
+                        setEmailError(false);
+                        break;
+                    case "password":
+                        setPassError(false);
+                        break;
+                }
+                setEmailError(false);
+            }
         } else {
-            setEmailError(false);
+            if(inputType === "email") {
+                setUsername(inputString);
+                setEmailError(false);
+            } else if (inputType === "password") {
+                setPassword(inputString)
+                setPassError(false);
+            }
+            }
+    }
+    // Handling change of password
+    const handlePassword = async (e) => {
+        const password = e.target.value;
+        // Check if password is not empty, then validate
+        if (password !== "") {
+            setPassword(e.target.value.replace(/\s/g, '')); // replace whitespace
+            const passwordIsValid = await InputValidation(password, "password");
+
         }
 
-    }
-    //Handling change of password
-    const handlePassword = async (e) => {
-        setPassword(e.target.value);
     }
     //Handling form submission
     const handleSubmit = async (e) => {
@@ -70,7 +109,8 @@ export default function RegistrationForm() {
             <form>
                 <label className="label">Username</label>
                 <input
-                    onChange={handleUsername}
+                    id="email"
+                    onChange={handleInput}
                     className="input"
                     value={username}
                     type="text"
@@ -79,7 +119,8 @@ export default function RegistrationForm() {
 
                 <label className="label">Password</label>
                 <input
-                    onChange={handlePassword}
+                    id="password"
+                    onChange={handleInput}
                     className="input"
                     value={password}
                     type="password"
