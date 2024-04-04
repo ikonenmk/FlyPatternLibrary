@@ -2,7 +2,7 @@
 
 Backend i Java (Spring boot), frontend React (vite).
 
-## Beskrivning
+## Beskrivning av projekt
 
 Webbapplikation där användare kan söka i en databas efter flugbindningsmönster baserat på bl.a. fiskart, typ av fluga (t.ex. torrfluga, våtfluga m.m.) och på en kombination av flugbidningsmaterial.
 
