@@ -1,4 +1,4 @@
-# FlyPatternLibrary (Pågående projekt, ej klart utan under arbete)
+# FlyPatternLibrary (Pågående projekt)
 
 Backend i Java (Spring boot), frontend React (vite).
 
