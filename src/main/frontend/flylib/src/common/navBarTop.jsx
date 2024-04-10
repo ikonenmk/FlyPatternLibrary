@@ -1,15 +1,16 @@
 import "./navBarTop.css"
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 export default function NavBarTop() {
 
     return (
         <nav>
             <ul className="nav">
-                <li><Link to="/"> Home </Link></li>
-                <li><Link to="/login"> Sign in </Link></li>
-                <li><Link to="register"> Register </Link></li>
-                <li><Link to="/create"> Upload a pattern </Link></li>
-                <li><Link to="/library"> Library </Link></li>
+                <li><NavLink to="/"> Home </NavLink></li>
+                <li><NavLink to="/login"> Sign in </NavLink></li>
+                <li><NavLink to="register"> Register </NavLink></li>
+                <li><NavLink to="/create"> Upload a pattern </NavLink></li>
+                <li><NavLink to="/library"> Library </NavLink></li>
 
             </ul>
         </nav>
