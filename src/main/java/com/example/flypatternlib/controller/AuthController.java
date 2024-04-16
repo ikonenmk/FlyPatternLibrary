@@ -38,6 +38,16 @@ public class AuthController {
         }
     }
 
+    //Endpoint for validating token
+    @CrossOrigin
+    @GetMapping("/validate")
+    public Boolean validateToken(@RequestParam String token) {
+        System.out.println("Token is: " + token);
+        Boolean isValid = tokenService.validateToken(token);
+        System.out.println("Token is = " + isValid);
+        return isValid;
+    }
+
     //Endpoint for returning username
     @CrossOrigin
     @GetMapping("/username")
