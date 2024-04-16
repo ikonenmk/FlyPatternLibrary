@@ -1,9 +1,7 @@
 package com.example.flypatternlib.service;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -15,12 +13,14 @@ import java.util.stream.Collectors;
 public class TokenService {
 
     private final JwtEncoder encoder;
+    private final JwtDecoder decoder;
 
-    public TokenService(JwtEncoder encoder) {
+    public TokenService(JwtEncoder encoder, JwtDecoder decoder) {
         this.encoder = encoder;
+        this.decoder = decoder;
     }
 
-    //Method that takes in authenticated user (authentication) and builds a self issued claims set and returns a encoded claims set (token)
+    //Method that takes in authenticated user and returns a JWT
     public String generateToken(Authentication authentication) {
         Instant now = Instant.now();
         String scope = authentication.getAuthorities().stream()
@@ -34,6 +34,28 @@ public class TokenService {
                 .claim("scope", scope)
                 .build();
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+    //Method that validates a JWT string
+    public Boolean validateToken(String token) {
+        try {
+            //Decode token string
+            Jwt jwt = decoder.decode(token);
+            //Create time stamp
+            Instant now = Instant.now();
+            //Get expiration time for JWT
+            Instant expirationTime = jwt.getExpiresAt();
+            //Return true if token exists and has not expired
+            if (expirationTime != null && !expirationTime.isBefore(now)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Token validation failed: " + e);
+            return false;
+            }
+
     }
 
 
