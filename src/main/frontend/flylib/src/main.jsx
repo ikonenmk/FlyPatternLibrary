@@ -13,6 +13,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 //Data for auth
+//
 const token = Cookies.get("token");
 
 const router = createBrowserRouter([
