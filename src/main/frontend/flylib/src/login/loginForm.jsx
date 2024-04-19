@@ -1,11 +1,10 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
-import {InputValidation} from "../utils/inputValidation.jsx";
 export default function LoginForm() {
 
     /** States **/
-        //States for registration information
+    //States for registration information
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     //State for submission status
@@ -21,29 +20,26 @@ export default function LoginForm() {
         setPassword(e.target.value);
     }
     //Handling form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if(username === "" || password === "") {
             alert("No fields can be empty")
             setSubmitted(false);
         } else {
-            setSubmitted(true);
             //Post request to backend
-            axios.post('http://localhost:8080/api/auth/token', {
-                username: username,
-                password: password
-            })
-                .then(response => {
-                    console.log(response);
-                    Cookies.set('token', response.data, {expires: 7});
-                    const myCookie = Cookies.get('token');
-                    console.log("Cookie set to: " +myCookie);
-                })
-                .catch(error => {
-                    console.log("Error: " +error);
-                })
+            try {
+                const token = await axios.post('http://localhost:8080/api/auth/token', {
+                    username: username,
+                    password: password
+                });
+                Cookies.set('token', token.data, {expires: 7, secure: false});
+                setSubmitted(true);
+            } catch (error) {
+                console.log("Error: " +error);
+            }
         }
     }
+
     return (
         <>
             <div>

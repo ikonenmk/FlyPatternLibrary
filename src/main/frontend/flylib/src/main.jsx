@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import ReactDOM from 'react-dom/client'
 import {createBrowserRouter, redirect, RouterProvider} from "react-router-dom";
 import './index.css'
@@ -11,10 +11,7 @@ import CreatePattern from "./create/createPattern.jsx";
 import NavBarWrapper from "./common/NavBarWrapper.jsx";
 import axios from "axios";
 import Cookies from "js-cookie";
-
-//Data for auth
-//
-const token = Cookies.get("token");
+import {CheckJwt} from "./utils/checkJwt.jsx";
 
 const router = createBrowserRouter([
     {
@@ -45,23 +42,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "/create",
-                loader: async () => {
-                    //Validate JWT from user's cookie, redirect to login page if JWT is missing or has expired
-                    try {
-                        const tokenIsValid = await axios
-                            .get(`http://localhost:8080/api/auth/validate?token=${token}`);
-                        if (!tokenIsValid.data) {
-                            return redirect("/login");
-                        }
-                        return null;
-
-                    } catch (error) {
-                        console.error("An error occured: ", error);
-                        throw error;
-                    }
-
-
-                },
+                loader: checkToken,
                 element: <CreatePattern />,
                 errorElement: <Error />,
             },
@@ -70,6 +51,27 @@ const router = createBrowserRouter([
     }
 
 ]);
+
+//Loader function that checks if JWT is valid before accessing route
+async function checkToken () {
+    const token = Cookies.get("token");
+    if (token) {
+        try {
+            const tokenIsValid = await CheckJwt(token);
+            if (!tokenIsValid) {
+                return redirect("/login");
+            }
+            return null;
+
+        } catch (error) {
+            console.error("An error occured: ", error);
+            throw error;
+        }
+        } else {
+        return redirect("/login");
+        }
+
+}
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(

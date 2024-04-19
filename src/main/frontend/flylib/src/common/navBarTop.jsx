@@ -1,8 +1,9 @@
 import "./navBarTop.css"
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import {CheckJwt} from "../utils/checkJwt.jsx";
+import Cookies from "js-cookie";
 export default function NavBarTop() {
-
     return (
         <nav>
             <ul className="nav">
