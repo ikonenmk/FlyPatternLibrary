@@ -1,6 +1,7 @@
 import {useState} from "react";
 import axios from "axios";
 import {InputValidation} from "../utils/inputValidation.jsx";
+import RegisterButton from "./registerButton.jsx";
 
 export default function RegistrationForm() {
 
@@ -66,6 +67,7 @@ export default function RegistrationForm() {
                     break;
             }
         }
+        console.log("emailerror = " +emailError +" passerror: " +passError+ " databaserror: "+dataBaseError);
     }
     // Handling change of password
     const handlePassword = async (e) => {
@@ -129,9 +131,7 @@ export default function RegistrationForm() {
                     type="password"
                     />
                 <p className="error-text">{passError ? passErrorMsg : ""}</p>
-                <button onClick={handleSubmit} className="button" type="submit">
-                    Register
-                </button>
+                <RegisterButton emailError={emailError} passError={passError} databaseError={dataBaseError} onClick={handleSubmit}/>
                 {dataBaseError ? <p className="error-text">{dataBaseErrorMsg}</p> : "" }
                 {submitted ? <p className="status-text"> You have been registered </p> : ""}
             </form>

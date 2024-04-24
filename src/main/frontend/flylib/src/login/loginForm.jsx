@@ -1,15 +1,17 @@
-import {useContext, useState} from "react";
+import {useState} from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
+import {useAuth, useAuthDispatch} from "../contexts/authContext.jsx";
 export default function LoginForm() {
+    // Read from AuthContext
+    const userStatus = useAuth();
+    const dispatch = useAuthDispatch();
 
     /** States **/
     //States for registration information
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    //State for submission status
-    const [submitted, setSubmitted] = useState(""); //TODO: will be used for error messages
-
+    
     /** Handlers **/
         //Handling change of username
     const handleUsername = (e) => {
@@ -24,16 +26,20 @@ export default function LoginForm() {
         e.preventDefault();
         if(username === "" || password === "") {
             alert("No fields can be empty")
-            setSubmitted(false);
         } else {
             //Post request to backend
             try {
-                const token = await axios.post('http://localhost:8080/api/auth/token', {
+                const response = await axios.post('http://localhost:8080/api/auth/token', {
                     username: username,
                     password: password
                 });
-                Cookies.set('token', token.data, {expires: 7, secure: false});
-                setSubmitted(true);
+                //Create cookie storing JWT
+                const token = response.data;
+                Cookies.set('token', token, {expires: 7, secure: false, sameSite: 'lax'});
+                //Change userStatus in AuthContext
+                if (userStatus === 'unauthorized') {
+                    dispatch({type: 'login'});
+                }
             } catch (error) {
                 console.log("Error: " +error);
             }

@@ -1,9 +1,8 @@
 import "./personalLibrary.css";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import SavedPatternsTab from "./savedPatternsTab.jsx";
 import CreatedPatternsTab from "./createdPatternsTab.jsx";
 import OrdersTabs from "./ordersTab.jsx";
-
 export default function PersonalLibrary() {
     /** Constants **/
     //Tabs array
@@ -38,7 +37,8 @@ export default function PersonalLibrary() {
 
             <div className="tab">
                 <button data-key="savedPatternTab" className="tablinks" onClick={handleTabClick}>Saved patterns</button>
-                <button data-key="createdPatternTab" className="tablinks" onClick={handleTabClick}>Created patterns</button>
+                <button data-key="createdPatternTab" className="tablinks" onClick={handleTabClick}>Created patterns
+                </button>
                 <button data-key="ordersTab" className="tablinks" onClick={handleTabClick}>Orders</button>
             </div>
             <div id="tabContent">
