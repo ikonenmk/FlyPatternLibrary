@@ -15,7 +15,6 @@ export default function SelectList ({endpoint, setSelectOptionValue}) {
         axios
             .get(`http://localhost:8080/api/${endpoint}`, config)
             .then((response) => {
-                console.log(response.data);
                 setSelectListData(response.data);
             })
             .catch((error) => {

@@ -4,6 +4,7 @@ import SelectList from "../common/selectList.jsx";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./createPattern.css";
+import ImageUpload from "../patterns/imageUpload.jsx";
 
 export default function CreatePattern() {
     //Data for auth
@@ -33,7 +34,6 @@ export default function CreatePattern() {
         axios
             .get('http://localhost:8080/api/auth/username', config)
             .then((response) => {
-                console.log(response.data);
                 setUsername(response.data);
             })
             .catch((error) => {
@@ -120,7 +120,7 @@ export default function CreatePattern() {
             </fieldset>
             <fieldset>
                 <legend>Image</legend>
-
+                <ImageUpload />
             </fieldset>
             <fieldset>
                 <legend className="hook-container">Hook size</legend>
