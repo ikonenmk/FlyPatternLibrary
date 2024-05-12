@@ -1,14 +1,13 @@
 /* Styling of tab */
 .tab {
     overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
+    background-color: #213547;
 }
 
 /* tab button styling */
 
 .tab button {
-    color: black;
+    color: white;
     background-color: inherit;
     float: left;
     border: none;
@@ -19,11 +18,11 @@
 }
 
 .tab button:hover {
-    background-color: #ddd;
+    background-color: cadetblue;
 }
 
 .tab button.active {
-    background-color: #ccc;
+    background-color: cadetblue;
 }
 
 /* styling of tab content */

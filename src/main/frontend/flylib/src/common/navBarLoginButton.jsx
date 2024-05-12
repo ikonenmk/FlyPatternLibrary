@@ -20,7 +20,6 @@ export default  function NavBarLoginButton() {
         // change user status in context
         dispatch({type: 'logout'})
     }
-    console.log("from navbarbuttonlogin, userStatus = " +userStatus);
     if (userStatus === 'authorized') {
         return <NavLink to="/" onClick={logOutButtonClicked}> Log out </NavLink>
     } else {
