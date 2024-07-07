@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import {createBrowserRouter, redirect, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, redirect, RouterProvider, useNavigate} from "react-router-dom";
 import '../index.css'
 import Home from "../home/home.jsx";
 import Error from "../common/error.jsx";
@@ -36,6 +36,7 @@ export default function PageRoutes() {
                 },
                 {
                     path: "/library",
+                    loader: () => checkToken(dispatch),
                     element: <PersonalLibrary />,
                     errorElement: <Error />,
                 },

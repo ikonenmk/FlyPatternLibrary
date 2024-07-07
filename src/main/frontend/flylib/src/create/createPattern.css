@@ -57,5 +57,11 @@ fieldset {
     margin: 5px;
 }
 
+#drop-zone {
+    border: 5px solid blue;
+    width: 20em;
+    height: 15em;
+
+}
 
 

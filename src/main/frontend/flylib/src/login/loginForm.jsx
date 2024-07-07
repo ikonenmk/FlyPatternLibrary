@@ -1,8 +1,8 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
 import {useAuth, useAuthDispatch} from "../contexts/authContext.jsx";
-import { useNavigate } from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 export default function LoginForm() {
     // Read from AuthContext
@@ -19,6 +19,14 @@ export default function LoginForm() {
     // States for error handling
     const [loginError, setLoginError] = useState(false);
     const [loginErrorMsg, setLoginErrorMsg] = useState("");
+
+    // UseEffect hook to track changes to userStatus state
+    useEffect(() => {
+        if (userStatus === 'authorized') {
+            console.log("Navigating to /library");
+            navigate("/library");
+        }
+    }, [userStatus, navigate]);
 
     /** Handlers **/
         //Handling change of username
@@ -46,9 +54,13 @@ export default function LoginForm() {
                 Cookies.set('token', token, {expires: 7, secure: false, sameSite: 'lax'});
                 //Change userStatus in AuthContext
                 if (userStatus === 'unauthorized') {
-                    dispatch({type: 'login'});
+                    console.log("Dispatching login action");
+                    dispatch({ type: 'login' });
+                    console.log("Dispatched login action");
                 }
-                // Forwarding user to personal library page
+                console.log("User status after check:", userStatus);
+
+                console.log("Navigating to /library");
                 navigate("/library");
             } catch (error) {
                 console.log("Error: " +error);

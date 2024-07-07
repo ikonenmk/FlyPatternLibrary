@@ -2,6 +2,7 @@ import {useState} from "react";
 import axios from "axios";
 import {InputValidation} from "../utils/inputValidation.jsx";
 import RegisterButton from "./registerButton.jsx";
+import {Link} from "react-router-dom";
 
 export default function RegistrationForm() {
 
@@ -131,9 +132,9 @@ export default function RegistrationForm() {
                     type="password"
                     />
                 <p className="error-text">{passError ? passErrorMsg : ""}</p>
-                <RegisterButton emailError={emailError} passError={passError} databaseError={dataBaseError} onClick={handleSubmit}/>
+                <RegisterButton emailError={emailError} passError={passError} databaseError={dataBaseError} handleSubmit={handleSubmit}/>
                 {dataBaseError ? <p className="error-text">{dataBaseErrorMsg}</p> : "" }
-                {submitted ? <p className="status-text"> You have been registered </p> : ""}
+                {submitted ? <p className="status-text"> You have been registered. Please <Link to="/login">login</Link> </p> : ""}
             </form>
         </div>
         </>

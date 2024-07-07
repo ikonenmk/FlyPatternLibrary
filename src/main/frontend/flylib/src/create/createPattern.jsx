@@ -4,7 +4,7 @@ import SelectList from "../common/selectList.jsx";
 import axios from "axios";
 import Cookies from "js-cookie";
 import "./createPattern.css";
-import ImageUpload from "../patterns/imageUpload.jsx";
+import ImageUpload from "./imageUpload.jsx";
 
 export default function CreatePattern() {
     //Data for auth
