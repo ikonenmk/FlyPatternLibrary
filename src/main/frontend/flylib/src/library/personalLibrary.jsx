@@ -3,6 +3,8 @@ import {useContext, useState} from "react";
 import SavedPatternsTab from "./savedPatternsTab.jsx";
 import CreatedPatternsTab from "./createdPatternsTab.jsx";
 import OrdersTabs from "./ordersTab.jsx";
+import {useAuth} from "../contexts/authContext.jsx";
+
 export default function PersonalLibrary() {
     /** Constants **/
     //Tabs array
@@ -11,6 +13,8 @@ export default function PersonalLibrary() {
         {title: "Created Patterns", content: "Created patterns", datakey:"test2"},
         {title: "Orders", content: "Orders", datakey: "test3"}
     ];
+
+    const user = useAuth();
 
     /** States **/
     const [activeTab, setActiveTab] = useState("savedPatternTab");
@@ -33,7 +37,7 @@ export default function PersonalLibrary() {
     }
     return(
         <>
-            <h2>Name</h2>
+            <h2>Name {user}</h2>
 
             <div className="tab">
                 <button data-key="savedPatternTab" className="tablinks" onClick={handleTabClick}>Saved patterns</button>
