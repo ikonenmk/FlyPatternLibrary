@@ -28,6 +28,7 @@ export default function CreatePattern() {
     const [imgUrl, setImgUrl] = useState("");
     const [type, setType] = useState("");
     const [searchInputArray, setSearchInputArray] = useState([]);
+
     //get username from server
     const [username, setUsername] = useState("");
     useEffect(() => {
@@ -39,6 +40,27 @@ export default function CreatePattern() {
             .catch((error) => {
                 console.log('Axios request error: ', error);
             });
+    }, []);
+
+    // Preventing default action of opening files dropped outside of dropzone
+
+    useEffect(() => {
+        // Call back functions
+        const handleDragOver = (e) => {
+            e.preventDefault();
+        };
+        const handleDrop = (e) => {
+            e.preventDefault();
+        }
+        // Add event listeners
+        window.addEventListener("dragover", handleDragOver);
+        window.addEventListener("drop", handleDrop);
+
+        // cleanup function
+        return () => {
+            window.removeEventListener("dragover", handleDragOver);
+            window.removeEventListener("drop", handleDrop);
+        };
     }, []);
     
     //Function for updating material and species arrays based on events in SearchField component
@@ -88,7 +110,6 @@ export default function CreatePattern() {
         const materialsString = materials.join(",");
         // Construct query string
         const queryString = `speciesArray=${encodeURIComponent(speciesString)}&materialsArray=${encodeURIComponent(materialsString)}`;
-
         axios
             .post(`http://localhost:8080/api/pattern?${queryString}`, patternData, {
                 headers: {
@@ -101,9 +122,6 @@ export default function CreatePattern() {
             .catch((error) => {
                 console.log('Axios error: ', error);
             });
-
-
-
     }
 
 
