@@ -1,10 +1,13 @@
-import {useState, useRef} from 'react';
-import DefaultImage from "./defaultimage.png";
-export default function ImageUpload() {
-    const [preview, setPreview] = useState(DefaultImage);
+import {useRef} from 'react';
+import "./imageUpload.css";
+import ImageResize from "../utils/imageResize.jsx";
 
+export default function ImageUpload() {
     //Allowed image types
     const allowedImageTypes = ['image/png', 'image/gif', 'image/jpeg', 'image/bmp']
+    // reference to dropzone element
+    const dropZoneRef = useRef(null);
+    const previewCanvasRef = useRef(null);
     function onDropHandler(e) {
         console.log("file dropped");
 
@@ -22,7 +25,18 @@ export default function ImageUpload() {
                         // Change preview image to chosen image
                         const reader = new FileReader();
                         reader.onload = (e) => {
-                            setPreview(e.target.result);
+                            // create imageElement object
+                           const img = new Image();
+                           img.src = e.target.result;
+                           // resize image
+                            img.onload = () => {
+                                const canvasWidth = dropZoneRef.current.offsetWidth;
+                                console.log("width = " + canvasWidth);
+                                const canvasHeight = dropZoneRef.current.offsetHeight;
+                                console.log("height = " +canvasHeight);
+                                const resizedImage = ImageResize(img, canvasWidth, canvasHeight, "previewCanvas");
+                                previewCanvasRef.current.style.backgroundImage = `url(${resizedImage})`;
+                            }
                         }
                         reader.readAsDataURL(file);
                     } else {
@@ -45,17 +59,23 @@ export default function ImageUpload() {
         console.log("file is out of dropzone");
     }
 
+    function onUploadClick(e) {
+        console.log("click click");
+    }
+
     return(
         <div
             id="drop-zone"
+            ref={dropZoneRef}
             onDrop={onDropHandler}
             onDragOver={onDragOverHandler}
             onDragLeave={onDragLeaveHandler}
+        >
+            <canvas
+                id="previewCanvas"
+                ref={previewCanvasRef}
             >
-            <img
-                src={preview}
-                alt="Preview image"
-                />
+            </canvas>
         </div>
     )
 

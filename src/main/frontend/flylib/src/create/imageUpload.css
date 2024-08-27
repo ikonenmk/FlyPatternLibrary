@@ -1,0 +1,6 @@
+#previewCanvas {
+    width: 20em;
+    height: 15em;
+    background-image: url("defaultimage.png");
+    filter: grayscale(1);
+}
