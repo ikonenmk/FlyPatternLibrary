@@ -58,10 +58,16 @@ fieldset {
 }
 
 #drop-zone {
-    border: 5px solid blue;
+    border: 2px dashed black;
+    border-radius: 5px;
     width: 20em;
     height: 15em;
+    padding: 2px;
 
+}
+
+#drop-zone:hover {
+    border: 2px dashed grey;
 }
 
 
