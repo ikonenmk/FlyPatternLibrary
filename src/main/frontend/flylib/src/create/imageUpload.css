@@ -1,6 +1,26 @@
-#previewCanvas {
+
+.previewCanvas {
+    position: absolute;
     width: 20em;
     height: 15em;
     background-image: url("defaultimage.png");
-    filter: grayscale(1);
+}
+.previewCanvasDrag {
+    position: absolute;
+    width: 20em;
+    height: 15em;
+    background-image: url("dragimage.png");
+}
+
+#canvasContainer {
+    position: relative;
+    width: 20em;
+    height: 15em;
+
+}
+
+#uploadButton {
+    position: absolute;
+    left: 18%;
+    top: 4%;
 }
