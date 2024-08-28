@@ -10,6 +10,7 @@ export default function ImageUpload() {
     const previewCanvasRef = useRef(null);
     const [style, setStyle] = useState("previewCanvas");
     const dragCounter = useRef(0);
+    const fileRef = useRef(null);
 
     function uploadImage(e) {
         // Check if file has been added with input button or dropped
@@ -17,6 +18,13 @@ export default function ImageUpload() {
 
         if (e.dataTransfer) {
             files = e.dataTransfer.files; // drag and drop
+
+            // set file input to value of dropped file
+            const dataTransfer = new DataTransfer();
+            for (let i = 0; i < files.length; i++) {
+                dataTransfer.items.add(files[i]);
+            }
+            fileRef.current.files = dataTransfer.files;
         } else if (e.target) {
             files = e.target.files; // file input
         }
@@ -98,7 +106,7 @@ export default function ImageUpload() {
                     ref={previewCanvasRef}
                 >
                 </canvas>
-                <input type="file" id="uploadButton" name="uploadButton" onInput={uploadImage} />
+                <input type="file" ref={fileRef} id="uploadButton" name="uploadButton" onInput={uploadImage} />
             </div>
         </div>
     )
