@@ -1,5 +1,5 @@
 import SearchField from "../common/searchField.jsx";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import SelectList from "../common/selectList.jsx";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -28,6 +28,7 @@ export default function CreatePattern() {
     const [imgUrl, setImgUrl] = useState("");
     const [type, setType] = useState("");
     const [searchInputArray, setSearchInputArray] = useState([]);
+    const fileRef = useRef(null);
 
     //get username from server
     const [username, setUsername] = useState("");
@@ -87,9 +88,40 @@ export default function CreatePattern() {
         setIsForSale(!isForSale);
     }
 
-    const handleSubmit = () => {
+    // function for storing image on submit
+    const storeImage = async () => {
+    // Kom ihåg att göra den async
+        const files = fileRef.current.files;
+        const formData = new FormData();
+        // add chosen file to formData
+        [...files].forEach((file) => {
+            formData.append('file', file);
+        })
+        // post to DB
+        try {
+            const response = await axios.post(`http://localhost:8080/api/pattern/uploadimage`, formData, {
+                headers: {Authorization: `Bearer ${token}`},
+            });
+            console.log("File uploaded");
+        } catch (error) {
+            if (error.response) {
+                console.error('Error response:', error.response.data);
+                console.error('Status code:', error.response.status);
+            } else if (error.request) {
+                console.error('No response received:', error.request);
+            } else {
+                console.error('Error:', error.message);
+            }
+        }
+    }
+
+    const handleSubmit = async () => {
+        // Store image and generate img url
+        await storeImage();
+
         //Create date and timestamp and convert to (java) LocalDateTime format
         const dateTime = new Date().toISOString();
+
         //User input data
         const patternData = {
             "name": patternName,
@@ -108,6 +140,7 @@ export default function CreatePattern() {
         // Convert arrays to comma separated strings to match endpoint
         const speciesString = species.join(",");
         const materialsString = materials.join(",");
+
         // Construct query string
         const queryString = `speciesArray=${encodeURIComponent(speciesString)}&materialsArray=${encodeURIComponent(materialsString)}`;
         axios
@@ -138,7 +171,7 @@ export default function CreatePattern() {
             </fieldset>
             <fieldset>
                 <legend>Image</legend>
-                <ImageUpload />
+                <ImageUpload fileRef={fileRef} />
             </fieldset>
             <fieldset>
                 <legend className="hook-container">Hook size</legend>

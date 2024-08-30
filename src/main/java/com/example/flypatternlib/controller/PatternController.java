@@ -10,9 +10,13 @@ import com.example.flypatternlib.repository.PatternRepository;
 import com.example.flypatternlib.repository.SpeciesRepository;
 import com.example.flypatternlib.service.PatternService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -24,6 +28,9 @@ public class PatternController {
     private final MaterialRepository materialRepository;
     private final SpeciesRepository speciesRepository;
     private final PatternService patternService;
+
+    // file directory for images
+    private final String UPLOAD_DIR = "***"; // Omitted
 
     public PatternController(PatternRepository patternRepository, MaterialRepository materialRepository, SpeciesRepository speciesRepository, PatternService patternService) {
         this.patternRepository = patternRepository;
@@ -78,6 +85,35 @@ public class PatternController {
     @GetMapping("/types")
     public List<FlyTypeDTO> findAllTypes() {
         return patternService.findAllTypes();
+    }
+
+    // Endpoint for uploading image
+    @PostMapping("/uploadimage")
+    public ResponseEntity<String> imageUpload(@RequestParam MultipartFile file) {
+        try {
+            File directory = new File(UPLOAD_DIR);
+            // Check if dir exists
+            if (!directory.exists()) {
+                boolean dirCreated = directory.mkdirs();
+                if (!dirCreated) {
+                    throw new IOException("Failed to create directory: " + UPLOAD_DIR);
+                }
+            }
+
+            String filePath = UPLOAD_DIR + file.getOriginalFilename();
+
+            file.transferTo(new File(filePath));
+
+            return ResponseEntity.ok("File uploaded");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("File upload failed: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unexpected error occurred: " + e.getMessage());
+    }
     }
 
 
