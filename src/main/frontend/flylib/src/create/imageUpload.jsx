@@ -2,7 +2,7 @@ import {useRef, useState} from 'react';
 import "./imageUpload.css";
 import ImageResize from "../utils/imageResize.jsx";
 
-export default function ImageUpload() {
+export default function ImageUpload({fileRef}) {
     // Allowed image types
     const allowedImageTypes = ['image/png', 'image/gif', 'image/jpeg', 'image/bmp']
     // Consts for handling to dropzone and change of style on dragging
@@ -10,7 +10,6 @@ export default function ImageUpload() {
     const previewCanvasRef = useRef(null);
     const [style, setStyle] = useState("previewCanvas");
     const dragCounter = useRef(0);
-    const fileRef = useRef(null);
 
     function uploadImage(e) {
         // Check if file has been added with input button or dropped
