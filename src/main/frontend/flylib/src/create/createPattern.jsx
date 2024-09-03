@@ -25,7 +25,7 @@ export default function CreatePattern() {
     const [price, setPrice] = useState("");
     const [materials, setMaterials] = useState([]);
     const [species, setSpecies] = useState([]);
-    const [imgUrl, setImgUrl] = useState("");
+    const UPLOAD_DIR = "";
     const [type, setType] = useState("");
     const [searchInputArray, setSearchInputArray] = useState([]);
     const fileRef = useRef(null);
@@ -130,7 +130,7 @@ export default function CreatePattern() {
             "hook_size_from": hookSizeFrom,
             "hook_size_to": hookSizeTo,
             "type": type,
-            "img_url": imgUrl,
+            "img_url": UPLOAD_DIR + fileRef.current.files[0].name,
             "for_sale": isForSale,
             "price" : price,
             "created_by_user" : username,

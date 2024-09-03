@@ -30,7 +30,7 @@ public class PatternController {
     private final PatternService patternService;
 
     // file directory for images
-    private final String UPLOAD_DIR = "***"; // Omitted
+    private final String UPLOAD_DIR = "";
 
     public PatternController(PatternRepository patternRepository, MaterialRepository materialRepository, SpeciesRepository speciesRepository, PatternService patternService) {
         this.patternRepository = patternRepository;
