@@ -30,7 +30,7 @@ public class PatternController {
     private final PatternService patternService;
 
     // file directory for images
-    private final String UPLOAD_DIR = "";
+    private final String UPLOAD_DIR = "C:/uploads/images/";
 
     public PatternController(PatternRepository patternRepository, MaterialRepository materialRepository, SpeciesRepository speciesRepository, PatternService patternService) {
         this.patternRepository = patternRepository;
@@ -40,7 +40,7 @@ public class PatternController {
     }
 
     //Find all patterns in database
-    @GetMapping
+    @GetMapping("/find")
     public List<Pattern> findAll() {
 
         return patternRepository.findAll();

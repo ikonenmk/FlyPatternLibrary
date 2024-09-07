@@ -12,5 +12,6 @@ export default function ImageResize(image, width, height, canvasId) {
     ctx.clearRect(0,0, width, height);
     ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
+    return canvas.toDataURL();
 
 }
