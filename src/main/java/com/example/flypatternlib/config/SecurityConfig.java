@@ -67,8 +67,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/user/register").permitAll()
                         .requestMatchers("/api/user/finduser").permitAll()
                         .requestMatchers("/api/pattern/find").permitAll()
+                        .requestMatchers("/api/pattern/**").permitAll()
                         .requestMatchers("/images/**").permitAll()
                         .requestMatchers("/error").permitAll()
+                        .requestMatchers("/pattern").permitAll()
+                        .requestMatchers("/api/patternmaterial/*").permitAll()
+                        .requestMatchers("/api/material/names/*").permitAll()
                         .anyRequest().authenticated()
                 )
                 //Add an oauth2 reserouce server with support for JWT-token

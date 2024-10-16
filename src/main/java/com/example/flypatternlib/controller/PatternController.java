@@ -1,10 +1,7 @@
 package com.example.flypatternlib.controller;
 
 import com.example.flypatternlib.DTO.FlyTypeDTO;
-import com.example.flypatternlib.model.Material;
 import com.example.flypatternlib.model.Pattern;
-import com.example.flypatternlib.model.PatternSpecies;
-import com.example.flypatternlib.model.Species;
 import com.example.flypatternlib.repository.MaterialRepository;
 import com.example.flypatternlib.repository.PatternRepository;
 import com.example.flypatternlib.repository.SpeciesRepository;
@@ -53,6 +50,12 @@ public class PatternController {
     public void add(@RequestBody Pattern pattern, @RequestParam("speciesArray") String[] speciesArray, @RequestParam("materialsArray") String[] materialsArray) {
         //Add pattern to DB
         patternService.addPattern(pattern, speciesArray, materialsArray);
+    }
+
+    // Find a pattern based on id
+    @GetMapping("/{pattern_id}")
+    public Optional<Pattern> findPattern(@PathVariable Integer pattern_id) {
+        return patternRepository.findById(pattern_id);
     }
 
     //Delete a pattern
