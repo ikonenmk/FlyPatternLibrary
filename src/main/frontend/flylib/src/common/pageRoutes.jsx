@@ -11,6 +11,7 @@ import NavBarWrapper from "../common/NavBarWrapper.jsx";
 import Cookies from "js-cookie";
 import {CheckJwt} from "../utils/checkJwt.jsx";
 import {useAuth, useAuthDispatch} from "../contexts/authContext.jsx";
+import Pattern from "../pattern/pattern.jsx";
 export default function PageRoutes() {
     // Read from context
     const userStatus = useAuth();
@@ -51,6 +52,11 @@ export default function PageRoutes() {
                     element: <CreatePattern />,
                     errorElement: <Error />,
                 },
+                {
+                    path: "/pattern/:patternId",
+                    element: <Pattern />,
+                    errorElement: <Error />,
+                }
 
             ]
         }

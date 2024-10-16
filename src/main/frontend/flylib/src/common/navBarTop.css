@@ -8,11 +8,11 @@ ul.nav {
 
 }
 
-li {
+ul.nav li {
     float: left;
 }
 
-li a {
+ul.nav li a {
     display: block;
     color: white;
     text-align: center;
@@ -20,6 +20,6 @@ li a {
     text-decoration: none;
 }
 
-li a:hover {
+ul.nav li a:hover {
     background-color: cadetblue;
 }

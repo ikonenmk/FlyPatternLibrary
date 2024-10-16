@@ -1,11 +1,21 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import SearchField from "../common/searchField.jsx";
 import axios from "axios";
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
+import {IconButton} from "@mui/material";
+import './home.css';
+import {useAuth} from "../contexts/authContext.jsx";
+import {useNavigate} from "react-router-dom";
 
 export default function Home() {
+// Read from AuthContext
+const userStatus = useAuth();
+
+// useNavigate hook call
+const navigate = useNavigate();
+
 // Input variables
     const [searchString, setSearchString] = useState("");
     const [searchInputArray, setSearchInputArray] = useState([]);
@@ -38,6 +48,24 @@ export default function Home() {
         }
     }
 
+    const [hoveredImageId, setHoveredImageId] = useState(null);
+
+    function showButtons(patternId) {
+        setHoveredImageId(patternId);
+    }
+    function hideButtons() {
+        setHoveredImageId(null);
+    }
+    function onAddClick(patternId) {
+        // Add pattern to user's library
+        console.log("Click add");
+    }
+    function onOpenClick(patternId) {
+        // Navigate to page for pattern with id
+        console.log("Click open");
+        navigate(`/pattern/${patternId}`);
+    }
+
 
     return (
         <>
@@ -47,7 +75,7 @@ export default function Home() {
 
                 </div>
                 <div className="image-container">
-                    <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={164}>
+                    <ImageList sx={{minWidth:200, maxWidth: 800}} gap={0} cols={3} rowHeight={164}>
                         {patterns.map((pattern) => (
                             <ImageListItem key={pattern.id}>
                                 <img
@@ -55,8 +83,71 @@ export default function Home() {
                                     src={`http://localhost:8080/images/${pattern.img_url}?w=164&h=164&fit=crop&auto=format`}
                                     alt={pattern.name}
                                     loading="lazy"
+                                    id={pattern.id}
+                                    onMouseEnter={() => showButtons(pattern.id)}
+                                    onMouseLeave={() => hideButtons()}
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover'
+                                    }}
                                 />
-                                <ImageListItemBar position="bottom" title={pattern.name} />
+                                { hoveredImageId === pattern.id ? (
+                                    <ImageListItemBar
+                                        position="bottom"
+                                        onMouseEnter={() => showButtons(pattern.id)}
+                                        onMouseLeave={() => hideButtons()}
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            padding: '10px',
+                                        }}
+                                        actionIcon={
+                                            <div className="iconContainer"
+                                                 style={{
+                                                     display: 'flex',
+                                                     gap: '30px',
+                                                     position: 'absolute',       // Use absolute positioning
+                                                     left: '50%',                // Center it horizontally
+                                                     top: '0px',
+                                                     transform: 'translateX(-50%)', // Adjust for width of icons
+                                                 }}
+                                            >
+                                                <IconButton
+                                                    aria-label={`open ${pattern.name}`}
+                                                    sx={{ color: 'white',
+                                                        '&:hover': {color: 'gray'}
+                                                    }}
+                                                    onClick={() => onOpenClick(pattern.id)}>
+                                                    Open
+                                                </IconButton>
+
+                                                {userStatus === 'authorized' ? (
+                                                <IconButton
+                                                    aria-label={`add ${pattern.name}`}
+                                                    sx={{ color: 'white',
+                                                        '&:hover': {color: 'gray'}
+                                                    }}
+                                                    onClick={() => onAddClick(pattern.id)}>
+                                                    Add
+                                                </IconButton>
+                                                    ) : ("")}
+                                            </div>
+
+                                        }
+                                    />
+                                ) : (
+                                    <ImageListItemBar
+                                        position="bottom"
+                                        title={pattern.name}
+                                        onMouseEnter={() => showButtons(pattern.id)}
+                                        onMouseLeave={() => hideButtons()}
+                                    />
+                                )
+
+                                }
+
                             </ImageListItem>
                         ))}
                     </ImageList>

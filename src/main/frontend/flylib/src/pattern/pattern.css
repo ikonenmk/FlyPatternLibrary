@@ -1,0 +1,19 @@
+.material-list {
+    list-style-type: none;
+    padding-left: 0px;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+}
+
+.material-list li {
+    display: flex;
+    flex-direction: column;
+}
+
+.imgAndMaterialsContainer {
+    display: flex;
+}
+.materialsContainer {
+    display:flex;
+    flex-direction: column;
+}
