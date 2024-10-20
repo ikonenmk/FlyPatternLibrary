@@ -17,23 +17,98 @@ const userStatus = useAuth();
 const navigate = useNavigate();
 
 // Input variables
-    const [searchString, setSearchString] = useState("");
-    const [searchInputArray, setSearchInputArray] = useState([]);
-    const [materials, setMaterials] = useState([]);
-    const [species, setSpecies] = useState([]);
+const [searchString, setSearchString] = useState("");
+const [searchInputArray, setSearchInputArray] = useState([]);
+const [materials, setMaterials] = useState([]);
+const [species, setSpecies] = useState([]);
+const [nameFilter, setNameFilter] = useState([]);
+const [materialsFilter, setMaterialsFilter] = useState([]);
+const [speciesFilter, setSpeciesFilter] = useState([]);
 
-    // Load images from DB
+// Filtering object storing filter values for each filter option
+const [filter, setFilter] = useState([{
+    nameFilter: {name : []},
+    materialsFilter: {material: []},
+    speciesFilter: {species: []},
+}]);
+const updateFilter = (newFilterItem, filterType) => {
+    // Check filter type and add filter value to correct filter object
+    switch(filterType) {
+        case 'name':
+            setFilter(prevFilter => {
+                return [{
+                    ...prevFilter[0], nameFilter: { ...prevFilter[0].nameFilter, name: newFilterItem}
+                }]
+            });
+            console.log("changed name filter to: " +newFilterItem);
+            break;
+        case 'material':
+            setFilter(prevFilter => {
+                return [{
+                    ...prevFilter[0], materialsFilter: { ...prevFilter[0].materialsFilter, material: newFilterItem}
+                }]
+            });
+            console.log("changed material filter to: " +newFilterItem);
+            break;
+        case 'species':
+            setFilter(prevFilter => {
+                return [{
+                    ...prevFilter[0], speciesFilter: { ...prevFilter[0].speciesFilter, species: newFilterItem}
+                }]
+            });
+            console.log("changed species filter to: " +newFilterItem);
+            break;
+    }
+}
+
+
+    // Load patterns from DB
     const [patterns, setPatterns] = useState([]);
     useEffect(() => {
         axios
             .get("http://localhost:8080/api/pattern/find")
             .then((response) => {
                 setPatterns(response.data);
+                console.log(patterns);
             })
             .catch((error) => {
                 console.log('Axios request error: ', error);
             })
     }, []);
+
+    // Show images in gallery based on filter options
+    const [galleryItems, setGalleryItems] = useState([]);
+    useEffect(() => {
+        // Check if all filters are empty
+        if(filter[0].nameFilter.name.length === 0 &&
+            filter[0].materialsFilter.material.length === 0 &&
+            filter[0].speciesFilter.species.length === 0
+        ) {
+            console.log("All filters are empty");
+            setGalleryItems(patterns);
+        } else {
+            // Filter patterns that includes exactly inputted name
+            if (filter[0].nameFilter.name.length > 0) {
+                const filteredNames = patterns.filter(pattern =>
+                    filter[0].nameFilter.name.toLowerCase().includes(pattern.name.toLowerCase())
+                );
+                // Update galler
+                setGalleryItems(filteredNames);
+
+            }
+            // Filter pattern objects on material
+            if (filter[0].materialsFilter.material.length > 0) {
+                // TODO: add code for filtering on material
+
+            }
+            // Filter pattern objects on species
+
+            console.log("Some filters are there");
+            console.log(filter);
+        }
+
+
+    }, [filter, patterns]);
 
     const setSearchInput = (updatedArray, endpointString) => {
         //Update array based on endpoint
@@ -72,11 +147,23 @@ const navigate = useNavigate();
             <h1>Gallery of all flies </h1>
             <div className="gallery-container">
                 <div className="filter-container">
-
+                    <fieldset>
+                        <legend>Name</legend>
+                        <SearchField endpoint="name" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Material</legend>
+                        <SearchField endpoint="material" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Species</legend>
+                        <SearchField endpoint="species" setSearchInput={setSearchInput}/>
+                    </fieldset>
                 </div>
                 <div className="image-container">
-                    <ImageList sx={{minWidth:200, maxWidth: 800}} gap={0} cols={3} rowHeight={164}>
-                        {patterns.map((pattern) => (
+                    <ImageList sx={{minWidth: 200, maxWidth: 800, background: '#242424'}} gap={0} cols={3}
+                               rowHeight={164}>
+                    {galleryItems.map((pattern) => (
                             <ImageListItem key={pattern.id}>
                                 <img
                                     srcSet={`http://localhost:8080/images/${pattern.img_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}

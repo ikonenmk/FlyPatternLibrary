@@ -12,8 +12,25 @@
 
 .imgAndMaterialsContainer {
     display: flex;
+    margin-left: 1em;
 }
 .materialsContainer {
     display:flex;
     flex-direction: column;
+    margin-top: 0;
+    margin-left: 1em;
+}
+
+.patternCanvas {
+    width: 25em;
+    height: 20em;
+}
+
+.descriptionAndInstructionContainer {
+    margin-left: 1em;
+}
+
+.patternContainer h1 {
+    margin-left: 0.2em;
+    margin-bottom: 0.2em;
 }
