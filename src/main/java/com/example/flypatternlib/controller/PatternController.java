@@ -18,7 +18,7 @@ import java.util.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/pattern")
+@RequestMapping("/api")
 public class PatternController {
 
     private final PatternRepository patternRepository;
@@ -37,7 +37,7 @@ public class PatternController {
     }
 
     //Find all patterns in database
-    @GetMapping("/find")
+    @GetMapping("/pattern/find")
     public List<Pattern> findAll() {
 
         return patternRepository.findAll();
@@ -53,14 +53,14 @@ public class PatternController {
     }
 
     // Find a pattern based on id
-    @GetMapping("/{pattern_id}")
+    @GetMapping("/pattern/{pattern_id}")
     public Optional<Pattern> findPattern(@PathVariable Integer pattern_id) {
         return patternRepository.findById(pattern_id);
     }
 
     //Delete a pattern
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/{pattern_id}")
+    @DeleteMapping("/pattern//{pattern_id}")
     public void delete(@PathVariable Integer pattern_id) {
         //if pattern id not found, throw error
         if(!patternRepository.existsById(pattern_id)) {
@@ -71,7 +71,7 @@ public class PatternController {
 
     //Update a pattern
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PutMapping("/{pattern_id}")
+    @PutMapping("/pattern/{pattern_id}")
     public void update(@RequestBody Pattern pattern, @PathVariable Integer pattern_id) {
         //If pattern id not in DB, throw error
         if(!patternRepository.existsById(pattern_id)) {
@@ -85,13 +85,13 @@ public class PatternController {
     }
 
     //Find all types
-    @GetMapping("/types")
+    @GetMapping("/pattern/types")
     public List<FlyTypeDTO> findAllTypes() {
         return patternService.findAllTypes();
     }
 
     // Endpoint for uploading image
-    @PostMapping("/uploadimage")
+    @PostMapping("/pattern/uploadimage")
     public ResponseEntity<String> imageUpload(@RequestParam MultipartFile file) {
         try {
             File directory = new File(UPLOAD_DIR);
@@ -117,6 +117,12 @@ public class PatternController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Unexpected error occurred: " + e.getMessage());
     }
+    }
+
+    // Find by name
+    @GetMapping("/name")
+    public List<Pattern> findAllNames() {
+        return patternRepository.findAll();
     }
 
 

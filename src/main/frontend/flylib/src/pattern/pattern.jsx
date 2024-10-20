@@ -1,13 +1,13 @@
 
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import axios from "axios";
 import {useNavigate, useParams} from 'react-router-dom';
 import "./pattern.css";
+import ImageResize from "../utils/imageResize.jsx";
 
 
 
 // Page showing a single pattern based on id
-
 
 
 export default function Pattern () {
@@ -15,6 +15,22 @@ export default function Pattern () {
     const [pattern, setPattern] = useState("");
     const [materials, setMaterials] = useState([]);
     const [materialNames, setMaterialNames] = useState([]);
+
+    // För bild resizing
+    const patternCanvasRef = useRef();
+    const [style, setStyle] = useState("patternCanvas");
+    useEffect(() => {
+        const img = new Image();
+        img.src = `http://localhost:8080/images/${pattern.img_url}`;
+        img.onload = () => {
+            const canvasWidth = patternCanvasRef.current.offsetWidth;
+            console.log("width = " + canvasWidth);
+            const canvasHeight = patternCanvasRef.current.offsetHeight;
+            console.log("height = " + canvasHeight);
+            const resizedImage = ImageResize(img, canvasWidth, canvasHeight, "patternCanvas");
+            patternCanvasRef.current.style.backgroundImage = `url(${resizedImage})`;
+        }
+    })
 
     // Get pattern based on id
     useEffect(() => {
@@ -75,15 +91,19 @@ export default function Pattern () {
         <>
             { pattern ? (
                 <>
-                    <h1>{pattern.name}</h1>
+
                     <div className="patternContainer">
+                        <h1>{pattern.name}</h1>
                         <div className="imgAndMaterialsContainer ">
-                            <img src={`http://localhost:8080/images/${pattern.img_url}`}
-                                 alt={pattern.name}/>
+                            <canvas
+                                id="patternCanvas"
+                                className={style}
+                                ref={patternCanvasRef}
+                            />
                             <div className="materialsContainer">
-                                <h4>Hook size: </h4>
+                                <h2>Hook size: </h2>
                                 <p>{pattern.hook_size_from} - {pattern.hook_size_to}</p>
-                                <h4>Materials: </h4>
+                                <h2>Materials: </h2>
                                 <ul className="material-list">
                                     {materialListItems}
                                 </ul>
@@ -91,11 +111,11 @@ export default function Pattern () {
                         </div>
                         <div className="descriptionAndInstructionContainer">
                             <div className="descriptionContainer">
-                                <h4>Description:</h4>
+                                <h2>Description:</h2>
                                 <p>{pattern.descr}</p>
                             </div>
                             <div className="instructionContainer">
-                                <h4>Tying instructions:</h4>
+                                <h2>Tying instructions:</h2>
                                 <p>{pattern.instr}</p>
                             </div>
                         </div>
