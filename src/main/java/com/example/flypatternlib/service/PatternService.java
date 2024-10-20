@@ -7,9 +7,8 @@ import com.example.flypatternlib.model.Species;
 import com.example.flypatternlib.repository.MaterialRepository;
 import com.example.flypatternlib.repository.PatternRepository;
 import com.example.flypatternlib.repository.SpeciesRepository;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import com.example.flypatternlib.model.User;
+
 import java.util.*;
 
 @Service
@@ -33,18 +32,18 @@ public class PatternService {
     }
 
     //Return a list of all "type" saved patterns have
-    public List<FlyTypeDTO> findAllTypes(){
+    public List<FlyTypeDTO> findAllTypes() {
 
         List<FlyTypeDTO> listOfTypes = new ArrayList<FlyTypeDTO>();
 
         //Find all types in
         List<String> listOfTypeStrings = patternRepository.findAllTypes();
         //Clean list of duplicates
-        List<String> allTypeStringsNoDuplicates =  listOfTypeStrings.stream().distinct().toList();
+        List<String> allTypeStringsNoDuplicates = listOfTypeStrings.stream().distinct().toList();
 
         //Loop through List of fly type strings and create object for each string
-        for(int i = 0; i < allTypeStringsNoDuplicates.size(); i++) {
-            FlyTypeDTO flyTypeDTO  = new FlyTypeDTO(i, allTypeStringsNoDuplicates.get(i));
+        for (int i = 0; i < allTypeStringsNoDuplicates.size(); i++) {
+            FlyTypeDTO flyTypeDTO = new FlyTypeDTO(i, allTypeStringsNoDuplicates.get(i));
             listOfTypes.add(flyTypeDTO);
         }
         //return list of FlyTypeDTOs
@@ -58,14 +57,14 @@ public class PatternService {
         List<Species> speciesToAdd = new ArrayList<Species>();
 
         //Loop through species and materials arrays and save returned object to lists
-        if(materialsArray != null) {
+        if (materialsArray != null) {
             for (int i = 0; i < materialsArray.length; i++) {
                 Material material = (Material) addObject("material", materialsArray[i].toLowerCase());
                 materialsToAdd.add(material);
             }
         }
 
-        if(speciesArray != null) {
+        if (speciesArray != null) {
             for (int i = 0; i < speciesArray.length; i++) {
                 Species species = (Species) addObject("species", speciesArray[i].toLowerCase());
                 speciesToAdd.add(species);
@@ -73,10 +72,10 @@ public class PatternService {
         }
 
         //Add rows to junction tables
-        for(int i = 0; i < materialsToAdd.size(); i++) {
+        for (int i = 0; i < materialsToAdd.size(); i++) {
             pattern.addMaterial(materialsToAdd.get(i)); //add new PatternMaterial row
         }
-        for(int i = 0; i < speciesToAdd.size(); i++) {
+        for (int i = 0; i < speciesToAdd.size(); i++) {
             pattern.addSpecies(speciesToAdd.get(i)); //add new PatternSpecis row
         }
         //Save pattern to DB
@@ -89,7 +88,7 @@ public class PatternService {
         //Loop through array of added materials
         if (Objects.equals(typeOfObject, "material")) {
             //Return existing Material if already in DB, or create a new Material
-            if(materialRepository.findByName(objectName) != null){
+            if (materialRepository.findByName(objectName) != null) {
                 Material existingMaterial = materialRepository.findByName(objectName);
                 return existingMaterial;
             } else {
@@ -98,10 +97,9 @@ public class PatternService {
                 materialRepository.save(newMaterial);
                 return newMaterial;
             }
-        }
-        else if (Objects.equals(typeOfObject, "species")) {
+        } else if (Objects.equals(typeOfObject, "species")) {
             //Return existing Species if already in DB, or create a new Species
-            if(speciesRepository.findByName(objectName) != null){
+            if (speciesRepository.findByName(objectName) != null) {
                 Species existingSpecies = speciesRepository.findByName(objectName);
                 return existingSpecies;
             } else {
@@ -110,16 +108,18 @@ public class PatternService {
                 speciesRepository.save(newSpecies);
                 return newSpecies;
             }
-        }
-        else {
+        } else {
             return null;
         }
 
-            //Check if material already exist in database
-                //if in db addPatternMaterial with existing material
-                //if not in db, add material to db, then add material to patternMaterial
+        //Check if material already exist in database
+        //if in db addPatternMaterial with existing material
+        //if not in db, add material to db, then add material to patternMaterial
 
 
     }
 
+    public List<Pattern> findByName(String name) {
+        return patternRepository.findByName(name);
+    }
 }

@@ -46,11 +46,7 @@ public class TokenService {
             //Get expiration time for JWT
             Instant expirationTime = jwt.getExpiresAt();
             //Return true if token exists and has not expired
-            if (expirationTime != null && !expirationTime.isBefore(now)) {
-                return true;
-            } else {
-                return false;
-            }
+            return expirationTime != null && !expirationTime.isBefore(now);
         } catch (Exception e) {
             System.out.println("Token validation failed: " + e);
             return false;
