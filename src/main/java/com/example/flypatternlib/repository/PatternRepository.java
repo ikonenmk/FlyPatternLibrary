@@ -19,4 +19,8 @@ public interface PatternRepository extends ListCrudRepository<Pattern, Integer> 
     //Find all types of fly
     @Query("select type from pattern")
     List<String> findAllTypes();
+
+    // Find flies by name
+    @Query("select * from pattern p where p.name = :name")
+    List<Pattern> findByName(@Param("name") String name);
 }

@@ -1,0 +1,36 @@
+.material-list {
+    list-style-type: none;
+    padding-left: 0px;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+}
+
+.material-list li {
+    display: flex;
+    flex-direction: column;
+}
+
+.imgAndMaterialsContainer {
+    display: flex;
+    margin-left: 1em;
+}
+.materialsContainer {
+    display:flex;
+    flex-direction: column;
+    margin-top: 0;
+    margin-left: 1em;
+}
+
+.patternCanvas {
+    width: 25em;
+    height: 20em;
+}
+
+.descriptionAndInstructionContainer {
+    margin-left: 1em;
+}
+
+.patternContainer h1 {
+    margin-left: 0.2em;
+    margin-bottom: 0.2em;
+}

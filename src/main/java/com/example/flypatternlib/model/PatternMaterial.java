@@ -11,4 +11,8 @@ public class PatternMaterial {
         PatternMaterial(Integer material) {
                 this.material = material;
         }
+
+        public Integer getMaterial() {
+                return material;
+        }
 }
