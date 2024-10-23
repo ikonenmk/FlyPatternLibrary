@@ -12,16 +12,11 @@ export default function SearchField({endpoint, setSearchInput, updateFilter}) {
     const [availableData, setAvailableData] = useState([]);
     const token = Cookies.get("token");
 
-    useEffect(() => {
-        console.log('Updated availableData: ', availableData);
-    }, [availableData]); // This useEffect will run whenever availableData changes
-
 
     useEffect(() => {
         axios
             .get(`http://localhost:8080/api/${endpoint}`)
             .then((response) => {
-                console.log(response.data);
                 setAvailableData(response.data);
             })
             .catch((error) => {
@@ -45,31 +40,42 @@ export default function SearchField({endpoint, setSearchInput, updateFilter}) {
         }
     }
     const handleOnSelect = (item) => {
-        setSearchString(item.name);
+        setSearchString(item);
     }
 
     //Add new item to list
     const handleAddButton = (itemType) => {
-        //Add string to array
-        const updatedArray = [...searchStringArray, searchString];
-        //Update states
-        setSearchStringArray(updatedArray);
-        setSearchInput(updatedArray, endpoint);
-        // If gallery is the parent component, update search filter
+        // If gallery is the parent component, update search filter with id of search string object
         if (updateFilter) {
-            console.log("updating filter from searchfield with add button")
-            updateFilter(searchString, "material") // TODO: change hard coded "material"
+            // If parent component is gallery, only allow adding of existing materials
+            if(typeof searchString === 'object' && searchString !== null && 'id' in searchString) {
+                updateFilter(searchString.id, endpoint)
+                const updatedArray = [...searchStringArray, searchString.name];
+                setSearchStringArray(updatedArray);
+                setSearchInput(updatedArray, endpoint);
+            }
+        } else {
+            //Add search string object name to array
+            const updatedArray = [...searchStringArray, searchString.name];
+            //Update states
+            setSearchStringArray(updatedArray);
+            setSearchInput(updatedArray, endpoint);
         }
-
     }
     //Delete item from list
-    const handleButtonClick = (buttonIndex) => {
-        console.log(searchStringArray);
-        //filter out array element with same index as the button clicked
-        const filteredArray = searchStringArray.filter((element, index) => index !== buttonIndex);
+    const handleButtonClick = (value) => {
+        // filter out array element with same index as the button clicked
+        const filteredArray = searchStringArray.filter((element) => element.toLowerCase() !== value.toLowerCase());
+        // recreate object to send back to updateFilter
+        const filteredElement = searchStringArray.filter((element) => element.toLowerCase() === value.toLowerCase());
+        const filteredElementObject = availableData.filter((element) => element.name.toLowerCase() === filteredElement[0].toLowerCase());
+
         //Update states
         setSearchStringArray(filteredArray);
         setSearchInput(filteredArray, endpoint);
+        if (updateFilter) {
+            updateFilter(filteredElementObject[0].id, endpoint, "delete");
+        }
     }
 
 
@@ -93,7 +99,7 @@ export default function SearchField({endpoint, setSearchInput, updateFilter}) {
                     )
                     }
 
-                    {searchStringArray.map((value, index) => <button className="delete-button" key={index} onClick={() =>handleButtonClick(index)}>{value}</button>)}
+                    {searchStringArray.map((value) => <button className="delete-button" key={value} onClick={() =>handleButtonClick(value)}>{value}</button>)}
                 </div>
             </>
 
