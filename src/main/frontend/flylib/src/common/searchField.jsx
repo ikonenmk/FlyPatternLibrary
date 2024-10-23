@@ -8,9 +8,13 @@ import "./searchField.css"
  * endpoint that should be used to make the api call
  * **/
 export default function SearchField({endpoint, setSearchInput, updateFilter}) {
-    //Load available data into const availableData
+    // Load available data into const availableData
     const [availableData, setAvailableData] = useState([]);
+    // Get token
     const token = Cookies.get("token");
+    // State for enable/disable add button
+    const [isAddButtonDisabled, setIsAddButtonDisabled] = useState(true);
+
 
 
     useEffect(() => {
@@ -30,21 +34,25 @@ export default function SearchField({endpoint, setSearchInput, updateFilter}) {
 
 
     //Handel input in search field
-    const handleOnSearch = (item, itemType) => {
+    const handleSearch = (item, itemType) => {
         setSearchString(item);
         // If gallery is the parent component, update search filter
         if (updateFilter) {
             if (endpoint === "name") {
                 updateFilter(item, itemType);
             }
+            if (endpoint !== "name") {
+                if(typeof item === 'object' && item !== null && 'id' in item) {
+                    setIsAddButtonDisabled(false)
+                } else {
+                    setIsAddButtonDisabled(true);
+                }
+            }
         }
-    }
-    const handleOnSelect = (item) => {
-        setSearchString(item);
     }
 
     //Add new item to list
-    const handleAddButton = (itemType) => {
+    const handleAddButton = () => {
         // If gallery is the parent component, update search filter with id of search string object
         if (updateFilter) {
             // If parent component is gallery, only allow adding of existing materials
@@ -83,8 +91,8 @@ export default function SearchField({endpoint, setSearchInput, updateFilter}) {
             <>
                 <div className="search-field">
                 <ReactSearchAutocomplete items={availableData} id={endpoint}
-                                          onSearch={(item) => handleOnSearch(item, endpoint)}
-                                          onSelect={handleOnSelect}
+                                          onSearch={(item) => handleSearch(item, endpoint)}
+                                          onSelect={(item) => handleSearch(item, endpoint)}
                                          styling={{
                                              height: '38px',
                                              border: '1px solid #ccc',
@@ -99,7 +107,7 @@ export default function SearchField({endpoint, setSearchInput, updateFilter}) {
                     { endpoint === "name" ? (
                         ""
                     ) : (
-                        <button className="add-button" onClick={handleAddButton}>Add</button>
+                        <button className={isAddButtonDisabled ? 'add-button-disabled' : 'add-button-enabled'} onClick={handleAddButton} disabled={isAddButtonDisabled}>Add</button>
                     )
                     }
 

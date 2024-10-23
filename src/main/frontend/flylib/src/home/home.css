@@ -27,3 +27,14 @@
 .species-search-field .search-field .auto-search {
     z-index: 9997;
 }
+
+.gallery-container {
+    margin-left: 10px;
+    margin-right: 10px;
+    max-width: 800px;
+    min-width: 200px;
+}
+
+h1 {
+    margin-left: 10px;
+}
