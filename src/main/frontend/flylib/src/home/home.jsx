@@ -25,42 +25,98 @@ const [nameFilter, setNameFilter] = useState([]);
 const [materialsFilter, setMaterialsFilter] = useState([]);
 const [speciesFilter, setSpeciesFilter] = useState([]);
 
+// Gallery items and filtered items
+const [galleryItems, setGalleryItems] = useState([]);
+const [filteredItems, setFilteredItems] = useState([]);
+
 // Filtering object storing filter values for each filter option
 const [filter, setFilter] = useState([{
     nameFilter: {name : []},
     materialsFilter: {material: []},
     speciesFilter: {species: []},
 }]);
-const updateFilter = (newFilterItem, filterType) => {
-    // Check filter type and add filter value to correct filter object
-    switch(filterType) {
-        case 'name':
-            setFilter(prevFilter => {
-                return [{
-                    ...prevFilter[0], nameFilter: { ...prevFilter[0].nameFilter, name: newFilterItem}
-                }]
-            });
-            console.log("changed name filter to: " +newFilterItem);
-            break;
-        case 'material':
-            setFilter(prevFilter => {
-                return [{
-                    ...prevFilter[0], materialsFilter: { ...prevFilter[0].materialsFilter, material: newFilterItem}
-                }]
-            });
-            console.log("changed material filter to: " +newFilterItem);
-            break;
-        case 'species':
-            setFilter(prevFilter => {
-                return [{
-                    ...prevFilter[0], speciesFilter: { ...prevFilter[0].speciesFilter, species: newFilterItem}
-                }]
-            });
-            console.log("changed species filter to: " +newFilterItem);
-            break;
-    }
-}
 
+
+const updateFilter = (newFilterItem, filterType, actionType) => {
+    if (actionType === "delete") {
+        // Delete item from filter
+        if (filterType === 'material') {
+            // Remove element based on id
+            setFilter(prevFilter => {
+                return prevFilter.map(filterItem => {
+                    return {
+                        ...filterItem,
+                        materialsFilter: {
+                            ...filterItem.materialsFilter,
+                            material: filterItem.materialsFilter.material.filter(materialsItem => materialsItem !== newFilterItem)
+                        }
+                    };
+                });
+            });
+        }
+        if (filterType === 'species') {
+            // Remove element based on id
+            setFilter(prevFilter => {
+                return prevFilter.map(filterItem => {
+                    return {
+                        ...filterItem,
+                        speciesFilter: {
+                            ...filterItem.speciesFilter,
+                            species: filterItem.speciesFilter.species.filter(speciesItem => speciesItem !== newFilterItem)
+                        }
+                    };
+                });
+            });
+        }
+    } else {
+        // Check filter type and add filter value to correct filter object
+        switch(filterType) {
+            case 'name':
+                setFilter(prevFilter => {
+                    return [{
+                        ...prevFilter[0],
+                        nameFilter:
+                            { ...prevFilter[0].nameFilter,
+                                name: newFilterItem} // Replace value for name, only one value at one time should be possible
+                    }]
+                });
+                break;
+            case 'material':
+                if(!filter[0].materialsFilter.material.includes(newFilterItem)) { // Check if material is not in filter
+                    // update filter
+                    setFilter(prevFilter => {
+                        return [{
+                            ...prevFilter[0],
+                            materialsFilter: {
+                                ...prevFilter[0].materialsFilter,
+                                material: [...(prevFilter[0].materialsFilter.material || []), newFilterItem] // Append value if filter is not empty
+                            }
+                        }];
+                    });
+                } else { // if already in filter, do nothing
+                    console.log("items is already in filter");
+                }
+                break;
+            case 'species':
+                if(!filter[0].speciesFilter.species.includes(newFilterItem)) { // Check if species is not in filter
+                    // update filter
+                    setFilter(prevFilter => {
+                        return [{
+                            ...prevFilter[0],
+                            speciesFilter: {
+                                ...prevFilter[0].speciesFilter,
+                                species: [...(prevFilter[0].speciesFilter.species || []), newFilterItem]}
+                        }]
+                    });
+                    console.log("changed species filter to: " +newFilterItem);
+                } else { // if already in filter, do nothing
+                    console.log("item already in filter");
+                }
+                break;
+        }
+    }
+
+}
 
     // Load patterns from DB
     const [patterns, setPatterns] = useState([]);
@@ -76,39 +132,55 @@ const updateFilter = (newFilterItem, filterType) => {
             })
     }, []);
 
-    // Show images in gallery based on filter options
-    const [galleryItems, setGalleryItems] = useState([]);
+    // Update gallery items based on filters
+
+    function updateGallery(filteredPatterns) {
+        const filters = filter[0];
+        let updatedFilter = patterns;
+
+        // Apply name filter
+        if (filters.nameFilter.name.length > 0) {
+            updatedFilter = updatedFilter.filter(pattern =>
+                pattern.name.toLowerCase() === filters.nameFilter.name.toLowerCase()
+            );
+        }
+
+        // Apply material filter
+        if (filters.materialsFilter.material.length > 0) {
+            updatedFilter = updatedFilter.filter(pattern =>
+                pattern.materials.some(materialItem =>
+                    filters.materialsFilter.material.includes(materialItem.material)
+                )
+            );
+        }
+
+        // Apply species filter
+        if (filters.speciesFilter.species.length > 0) {
+            updatedFilter = updatedFilter.filter(pattern =>
+                pattern.species.some(speciesItem =>
+                    filters.speciesFilter.species.includes(speciesItem.species)
+                )
+            );
+        }
+
+        // Set gallery items to the filtered patterns
+        setGalleryItems(updatedFilter);
+    }
+
+    // useEffect hook for deciding which items to show in gallery based on the filter
     useEffect(() => {
         // Check if all filters are empty
         if(filter[0].nameFilter.name.length === 0 &&
             filter[0].materialsFilter.material.length === 0 &&
             filter[0].speciesFilter.species.length === 0
         ) {
-            console.log("All filters are empty");
+            // Show all patterns i DB in gallery
             setGalleryItems(patterns);
         } else {
-            // Filter patterns that includes exactly inputted name
-            if (filter[0].nameFilter.name.length > 0) {
-                const filteredNames = patterns.filter(pattern =>
-                    filter[0].nameFilter.name.toLowerCase().includes(pattern.name.toLowerCase())
-                );
-                // Update galler
-                setGalleryItems(filteredNames);
-
-            }
-            // Filter pattern objects on material
-            if (filter[0].materialsFilter.material.length > 0) {
-                // TODO: add code for filtering on material
-
-            }
-            // Filter pattern objects on species
-
-            console.log("Some filters are there");
-            console.log(filter);
+            updateGallery()
         }
 
-
-    }, [filter, patterns]);
+    }, [patterns, filter]);
 
     const setSearchInput = (updatedArray, endpointString) => {
         //Update array based on endpoint
@@ -157,7 +229,7 @@ const updateFilter = (newFilterItem, filterType) => {
                     </fieldset>
                     <fieldset>
                         <legend>Species</legend>
-                        <SearchField endpoint="species" setSearchInput={setSearchInput}/>
+                        <SearchField endpoint="species" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
                     </fieldset>
                 </div>
                 <div className="image-container">
