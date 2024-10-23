@@ -10,4 +10,8 @@ public class PatternSpecies {
         PatternSpecies(Integer species) {
                 this.species = species;
         }
+
+        public Integer getSpecies() {
+                return species;
+        }
 }

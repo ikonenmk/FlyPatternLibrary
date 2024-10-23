@@ -43,7 +43,6 @@ public class PatternController {
         return patternRepository.findAll();
     }
 
-
     //Add a new pattern
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
