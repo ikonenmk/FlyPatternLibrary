@@ -220,7 +220,7 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
 
     return (
         <>
-            <h1>Gallery of all flies </h1>
+            <h1>Fly Pattern Database Search </h1>
             <div className="gallery-container">
                 <div className="filter-container">
                     <fieldset>
@@ -243,7 +243,8 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
                     </fieldset>
                 </div>
                 <div className="image-container">
-                    <ImageList sx={{minWidth: 200, maxWidth: 800, background: '#242424'}} gap={0} cols={3}
+                    <ImageList sx={{minWidth: 200, maxWidth: 800, background: '#242424', borderStyle: 'solid',
+                        borderColor: '#213547'}} gap={0} cols={3}
                                rowHeight={164}>
                     {galleryItems.map((pattern) => (
                             <ImageListItem key={pattern.id}>
@@ -258,7 +259,7 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
                                     style={{
                                         width: '100%',
                                         height: '100%',
-                                        objectFit: 'cover'
+                                        objectFit: 'cover',
                                     }}
                                 />
                                 { hoveredImageId === pattern.id ? (
