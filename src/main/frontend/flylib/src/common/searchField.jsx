@@ -85,9 +85,13 @@ export default function SearchField({endpoint, setSearchInput, updateFilter}) {
                 <ReactSearchAutocomplete items={availableData} id={endpoint}
                                           onSearch={(item) => handleOnSearch(item, endpoint)}
                                           onSelect={handleOnSelect}
-                                          styling={
-                                            {color: "black"}
-                                          }
+                                         styling={{
+                                             height: '38px',
+                                             border: '1px solid #ccc',
+                                             borderRadius: '4px',
+                                             color: 'black'
+                                         }}
+                                         className="auto-search"
                                          placeholder={`Type in ${endpoint}`}
                 />
                 </div>

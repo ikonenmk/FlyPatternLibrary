@@ -15,3 +15,15 @@
 .image-container {
     background-color: #242424;
 }
+
+.name-search-field .search-field .auto-search {
+    z-index: 9999;
+}
+
+.material-search-field .search-field .auto-search {
+    z-index: 9998;
+}
+
+.species-search-field .search-field .auto-search {
+    z-index: 9997;
+}
