@@ -148,8 +148,10 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
         // Apply material filter
         if (filters.materialsFilter.material.length > 0) {
             updatedFilter = updatedFilter.filter(pattern =>
-                pattern.materials.some(materialItem =>
-                    filters.materialsFilter.material.includes(materialItem.material)
+                filters.materialsFilter.material.every(requiredMaterial =>
+                    pattern.materials.some(materialItem =>
+                        materialItem.material === requiredMaterial
+                    )
                 )
             );
         }
@@ -157,8 +159,10 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
         // Apply species filter
         if (filters.speciesFilter.species.length > 0) {
             updatedFilter = updatedFilter.filter(pattern =>
-                pattern.species.some(speciesItem =>
-                    filters.speciesFilter.species.includes(speciesItem.species)
+                filters.speciesFilter.species.every(requiredSpecies =>
+                    pattern.species.some((speciesItem) =>
+                        speciesItem.species === requiredSpecies
+                    )
                 )
             );
         }
@@ -221,15 +225,21 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
                 <div className="filter-container">
                     <fieldset>
                         <legend>Name</legend>
-                        <SearchField endpoint="name" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
+                        <div className="name-search-field">
+                            <SearchField endpoint="name" className="name-search-field" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
+                        </div>
                     </fieldset>
                     <fieldset>
                         <legend>Material</legend>
-                        <SearchField endpoint="material" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
+                        <div className="material-search-field">
+                            <SearchField endpoint="material" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
+                        </div>
                     </fieldset>
                     <fieldset>
                         <legend>Species</legend>
-                        <SearchField endpoint="species" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
+                        <div className="species-search-field">
+                            <SearchField endpoint="species" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
+                        </div>
                     </fieldset>
                 </div>
                 <div className="image-container">
