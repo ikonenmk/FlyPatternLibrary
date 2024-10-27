@@ -8,11 +8,13 @@ import {IconButton} from "@mui/material";
 import './home.css';
 import {useAuth} from "../contexts/authContext.jsx";
 import {useNavigate} from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function Home() {
 // Read from AuthContext
 const userStatus = useAuth();
-
+const token = Cookies.get("token");
+const [username, setUsername] = useState("");
 // useNavigate hook call
 const navigate = useNavigate();
 
@@ -38,6 +40,7 @@ const [filter, setFilter] = useState([{
 
 
 const updateFilter = (newFilterItem, filterType, actionType) => {
+    console.log("actionType=", actionType);
     if (actionType === "delete") {
         // Delete item from filter
         if (filterType === 'material') {
@@ -115,7 +118,7 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
                 break;
         }
     }
-
+    updateGallery();
 }
 
     // Load patterns from DB
@@ -207,9 +210,56 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
     function hideButtons() {
         setHoveredImageId(null);
     }
-    function onAddClick(patternId) {
-        // Add pattern to user's library
-        console.log("Click add");
+
+    // Add pattern to user's library
+    async function onAddClick(patternId) {
+        // Get username based on auth token
+        let username;
+        try {
+            const response = await axios.get("http://localhost:8080/api/auth/username", {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            username = response.data;
+        } catch (error) {
+            if (error.response) {
+                console.log("Response error: ", error.status);
+                console.log(error.response.data);
+            } else if (error.request) {
+                console.log("Request error: ", error.request);
+            } else {
+                console.log("Error", error.message);
+            }
+            return;
+        }
+
+        console.log("username = ", username)
+
+        // Add to database
+        if (username) {
+            try {
+                const response = await axios
+                    .post(`http://localhost:8080/api/user/addpattern?username=${username}&pattern_id=${patternId}`,
+                        null,{headers: {Authorization: `Bearer ${token}`}})
+                console.log(response);
+                if(response.data.success) {
+                    alert(response.data.message); // Log success message
+                }
+            } catch (error) {
+                if (error.response) {
+                    if (error.response.status === 409) {
+                        alert(error.response.data.message);
+                    }
+                    console.log("Response error: ", error.response.data.message);
+                    console.log("Status: ", error.response.status);
+                } else if (error.request) {
+                    console.log("Request error: ", error.request);
+                } else {
+                    console.log("Error", error.message);
+                }
+            }
+        } else {
+            console.log("Username not found");
+        }
     }
     function onOpenClick(patternId) {
         // Navigate to page for pattern with id
@@ -220,22 +270,24 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
 
     return (
         <>
-            <h1>Fly Pattern Database Search </h1>
+            <div className="rubric">
+                <h1>Fly Pattern Database Search </h1>
+            </div>
             <div className="gallery-container">
-                <div className="filter-container">
-                    <fieldset>
+            <div className="filter-container">
+                    <fieldset className="name-fieldset">
                         <legend>Name</legend>
                         <div className="name-search-field">
                             <SearchField endpoint="name" className="name-search-field" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
                         </div>
                     </fieldset>
-                    <fieldset>
+                    <fieldset className="material-fieldset">
                         <legend>Material</legend>
                         <div className="material-search-field">
                             <SearchField endpoint="material" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
                         </div>
                     </fieldset>
-                    <fieldset>
+                    <fieldset className="species-fieldset">
                         <legend>Species</legend>
                         <div className="species-search-field">
                             <SearchField endpoint="species" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
@@ -278,10 +330,10 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
                                                  style={{
                                                      display: 'flex',
                                                      gap: '30px',
-                                                     position: 'absolute',       // Use absolute positioning
-                                                     left: '50%',                // Center it horizontally
+                                                     position: 'absolute',
+                                                     left: '50%',
                                                      top: '0px',
-                                                     transform: 'translateX(-50%)', // Adjust for width of icons
+                                                     transform: 'translateX(-50%)',
                                                  }}
                                             >
                                                 <IconButton

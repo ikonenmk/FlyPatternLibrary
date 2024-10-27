@@ -2,7 +2,8 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import Cookies from 'js-cookie';
 import {useAuth, useAuthDispatch} from "../contexts/authContext.jsx";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import "./login.css";
 
 export default function LoginForm() {
     // Read from AuthContext
@@ -72,11 +73,11 @@ export default function LoginForm() {
 
     return (
         <>
-            <div>
-                <h2>Login</h2>
+            <div className="rubric">
+                <h1>Login</h1>
             </div>
-            <div>
-                <form>
+            <div className="form-container">
+                <form className="login-form">
                     <label className="label">Username</label>
                     <input
                         onChange={handleUsername}

@@ -1,32 +1,43 @@
 /* Styling of tab */
-.tab {
-    overflow: hidden;
+.tab-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 40em;
+    padding: 0.5em;
+}
+.tabs {
+    width: 40em;
+    margin-bottom: 1em;
     background-color: #213547;
+
 }
 
 /* tab button styling */
 
-.tab button {
+.tabs button {
     color: white;
-    background-color: inherit;
+    background-color: #213547;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    border-bottom: none;
     float: left;
-    border: none;
     outline: none;
     cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s;
 }
 
-.tab button:hover {
+.tabs button:hover {
     background-color: cadetblue;
 }
 
-.tab button.active {
+.tabs button.active {
     background-color: cadetblue;
 }
 
 /* styling of tab content */
-.tabContent {
+.tabContents {
     display: none;
     padding: 6px 12px;
     border: 1px solid #ccc;
@@ -38,3 +49,5 @@
     border: 1px solid #ccc;
     border-top: none;
 }
+
+

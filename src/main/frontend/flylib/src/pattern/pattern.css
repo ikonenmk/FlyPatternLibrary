@@ -10,6 +10,18 @@
     flex-direction: column;
 }
 
+.species-list {
+    list-style-type: none;
+    padding-left: 0px;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+}
+
+.species-list li {
+    display: flex;
+    flex-direction: column;
+}
+
 .imgAndMaterialsContainer {
     display: flex;
     flex-direction: column;
@@ -31,6 +43,9 @@
     margin-left: 1em;
 }
 
+.patternContainer {
+    margin-top: 1em;
+}
 .patternContainer h1 {
     margin-left: 0.2em;
     margin-bottom: 0.2em;
@@ -41,3 +56,10 @@
     margin-bottom: 0;
 }
 
+.rubric {
+    background-image: url("../utils/banner.jpg");
+    background-color: cadetblue;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

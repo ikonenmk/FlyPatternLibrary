@@ -6,6 +6,7 @@
     border: none;
     color: white;
     margin-top: 5px;
+    cursor: pointer;
 }
 
 .add-button-enabled:hover {
@@ -17,16 +18,16 @@
     cursor: not-allowed;
 }
 .delete-button {
-    background-color: black;
+    background-color: grey;
     min-height: 40px;
     padding: 10px 15px;
     border: none;
     color: white;
     margin-top: 5px;
+    cursor: pointer;
 }
 .delete-button:hover {
     background-color: red;
-    "test";
 }
 
 .button-container {
@@ -35,5 +36,3 @@
     gap: 5px;
     margin-top: 5px;
 }
-
-

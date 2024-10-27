@@ -15,6 +15,8 @@ export default function Pattern () {
     const [pattern, setPattern] = useState("");
     const [materials, setMaterials] = useState([]);
     const [materialNames, setMaterialNames] = useState([]);
+    const [species, setSpecies] = useState([]);
+    const [speciesNames, setSpeciesNames] = useState([]);
 
     // För bild resizing
     const patternCanvasRef = useRef();
@@ -86,14 +88,54 @@ export default function Pattern () {
         return <li key={material.id}>{material.name}</li>;
     });
 
+    // Get all species for the pattern
+    useEffect(() => {
+        axios
+            .get(`http://localhost:8080/api/patternspecies/${patternId}`)
+            .then((response) => {
+                if (response.data !== null) {
+                    setSpecies(response.data);
+                } else {
+                    console.log("Error: no species in db for this pattern");
+                }
+            })
+            .catch((error) => {
+                console.log('Axios request error: ', error);
+            })
+    }, []);
+
+    // Get names of species
+    useEffect(() => {
+        const speciesString = species.map(spec => spec.species).join(',');
+        if (speciesString) {
+            axios
+                .get(`http://localhost:8080/api/species/names/${speciesString}`)
+                .then((response) => {
+                    if(response.data !== null) {
+                        setSpeciesNames(response.data);
+                    }
+                })
+                .catch((error) => {
+                    console.log('Axios request error: ', error);
+                });
+        }
+    }, [species]);
+
+
+    // Map all species to speciesListItems
+    const speciesListItems = speciesNames.map((species) => {
+        return <li key={species.id}>{species.name}</li>;
+    });
+
 
     return (
         <>
             { pattern ? (
                 <>
-
-                    <div className="patternContainer">
+                    <div className="rubric">
                         <h1>{pattern.name}</h1>
+                    </div>
+                    <div className="patternContainer">
                         <div className="imgAndMaterialsContainer ">
                             <canvas
                                 id="patternCanvas"
@@ -106,6 +148,10 @@ export default function Pattern () {
                                 <h2>Materials: </h2>
                                 <ul className="material-list">
                                     {materialListItems}
+                                </ul>
+                                <h2>Species:</h2>
+                                <ul className="species-list">
+                                    {speciesListItems}
                                 </ul>
                             </div>
                         </div>

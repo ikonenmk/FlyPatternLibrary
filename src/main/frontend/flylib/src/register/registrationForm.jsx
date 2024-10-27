@@ -3,6 +3,7 @@ import axios from "axios";
 import {InputValidation} from "../utils/inputValidation.jsx";
 import RegisterButton from "./registerButton.jsx";
 import {Link} from "react-router-dom";
+import "./register.css";
 
 export default function RegistrationForm() {
 
@@ -108,35 +109,44 @@ export default function RegistrationForm() {
     }
     return (
         <>
-        <div>
-            <h2>Register</h2>
-        </div>
-        <div>
-            <form>
-                <label className="label">Username</label>
-                <input
-                    id="email"
-                    onChange={handleInput}
-                    className="input"
-                    value={username}
-                    type="text"
-                    />
-                <p className="error-text">{emailError ? emailErrorMsg : ""}</p>
+            <div className="rubric">
+                    <h1>Register</h1>
+            </div>
+            {submitted ? (
+                <div>
+                    <h2>Successfully registered</h2>
+                    <p className="status-text"> You have been registered. Please <Link to="/login">login</Link></p>
+                </div>
+            ) : (
+                    <>
+                    <div className="form-container">
+                        <form className="login-form">
+                            <label className="label">Username</label>
+                            <input
+                                id="email"
+                                onChange={handleInput}
+                                className="input"
+                                value={username}
+                                type="text"
+                            />
+                            <p className="error-text">{emailError ? emailErrorMsg : ""}</p>
 
-                <label className="label">Password</label>
-                <input
-                    id="password"
-                    onChange={handleInput}
-                    className="input"
-                    value={password}
-                    type="password"
-                    />
-                <p className="error-text">{passError ? passErrorMsg : ""}</p>
-                <RegisterButton emailError={emailError} passError={passError} databaseError={dataBaseError} handleSubmit={handleSubmit}/>
-                {dataBaseError ? <p className="error-text">{dataBaseErrorMsg}</p> : "" }
-                {submitted ? <p className="status-text"> You have been registered. Please <Link to="/login">login</Link> </p> : ""}
-            </form>
-        </div>
+                            <label className="label">Password</label>
+                            <input
+                                id="password"
+                                onChange={handleInput}
+                                className="input"
+                                value={password}
+                                type="password"
+                            />
+                            <p className="error-text">{passError ? passErrorMsg : ""}</p>
+                            <RegisterButton emailError={emailError} passError={passError} databaseError={dataBaseError}
+                                            handleSubmit={handleSubmit}/>
+                            {dataBaseError ? <p className="error-text">{dataBaseErrorMsg}</p> : ""}
+                         </form>
+                     </div>
+                </>)
+        }
         </>
     )
 }

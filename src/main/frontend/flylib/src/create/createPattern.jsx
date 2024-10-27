@@ -167,6 +167,9 @@ export default function CreatePattern() {
 
     return (
         <>
+            <div className="rubric">
+                <h1>Upload a new pattern</h1>
+            </div>
             <div className="create-form">
             <fieldset>
                 <legend>Pattern name</legend>
@@ -188,16 +191,22 @@ export default function CreatePattern() {
                 </fieldset>
                 <fieldset>
                     <legend className="hook-container">Hook size</legend>
+                    <p>From (hook size number):</p>
                     <input type="text" className="form-input-text" onChange={(e) => setHookSizeFrom(e.target.value)} />
+                    <p>To (hook size number):</p>
                    <input type="text" className="form-input-text" onChange={(e)=> setHookSizeTo(e.target.value)} />
             </fieldset>
-            <fieldset>
-                <legend>Material</legend>
-                <SearchField endpoint="material" setSearchInput={setSearchInput}/>
-            </fieldset>
-            <fieldset>
-                <legend>Species</legend>
-                <SearchField endpoint="species" setSearchInput={setSearchInput}/>
+                <fieldset className="material-fieldset">
+                    <legend>Material</legend>
+                    <div className="material-search-field">
+                        <SearchField endpoint="material" setSearchInput={setSearchInput}/>
+                    </div>
+                </fieldset>
+                <fieldset className="species-fieldset">
+                <div className="species-search-field">
+                    <legend>Species</legend>
+                    <SearchField endpoint="species" setSearchInput={setSearchInput}/>
+                </div>
             </fieldset>
             <fieldset>
                 <legend>Description</legend>
@@ -208,13 +217,20 @@ export default function CreatePattern() {
                 <textarea className="form-textarea" onChange={(e) => setInstruction(e.target.value)}></textarea>
             </fieldset>
             <fieldset>
-                <label>For sale</label>
-                <input className="for-sale-checkbox" type="checkbox" onChange={handleIsForSaleCheckBoxChange} />
+                <div className="for-sale-container">
+                    <label>For sale</label>
+                    <div className="checkbox-wrapper">
+                        <input className="for-sale-checkbox" type="checkbox" onChange={handleIsForSaleCheckBoxChange}/>
+                    </div>
+                </div>
+                <div className="for-sale-container-dropdown">
                 {isForSale && <label>Price</label>}
-                {isForSale && <input  type="text" className="form-input-text" onChange={(e) => setPrice(e.target.value)} />}
+                    {isForSale && <input  type="text" className="form-input-text" onChange={(e) => setPrice(e.target.value)} />}
+                </div>
             </fieldset>
-
-                <button onClick={handleSubmit}>Upload pattern</button>
+                <div className="add-button-container">
+                    <button className="button" onClick={handleSubmit}>Upload pattern</button>
+                </div>
             </div>
         </>
     );

@@ -5,14 +5,18 @@ import com.example.flypatternlib.model.Pattern;
 import com.example.flypatternlib.model.User;
 import com.example.flypatternlib.repository.PatternRepository;
 import com.example.flypatternlib.repository.UserOrderRepository;
+import com.example.flypatternlib.repository.UserPatternRepository;
 import com.example.flypatternlib.repository.UserRepository;
+import com.example.flypatternlib.response.ApiResponse;
 import com.example.flypatternlib.service.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,13 +24,15 @@ import java.util.Optional;
 @RequestMapping("/api/user")
 public class UserController {
     private final UserRepository userRepository;
+    private final UserPatternRepository userPatternRepository;
     private final PatternRepository patternRepository;
     private final UserOrderRepository orderRepository;
     private final UserService userService;
     private final JdbcUserDetailsManager jdbcUserDetailsManager;
 
-    public UserController(UserRepository repository, PatternRepository patternRepository, UserOrderRepository orderRepository, UserService userService, JdbcUserDetailsManager jdbcUserDetailsManager) {
+    public UserController(UserRepository repository, UserPatternRepository userPatternRepository, PatternRepository patternRepository, UserOrderRepository orderRepository, UserService userService, JdbcUserDetailsManager jdbcUserDetailsManager) {
         this.userRepository = repository;
+        this.userPatternRepository = userPatternRepository;
         this.patternRepository = patternRepository;
         this.orderRepository = orderRepository;
         this.userService = userService;
@@ -49,33 +55,86 @@ public class UserController {
         return userService.findUser(username);
     }
 
-    //Update user
-
 
     //Delete a user
 
 
     //Add pattern to User's library
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @GetMapping("/addpattern")
-    public void addToLib(@RequestParam Integer user_id, @RequestParam Integer pattern_id) {
-        //if user id not found, throw error
-        if(!userRepository.existsById(user_id) || !patternRepository.existsById(pattern_id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+    @CrossOrigin
+    @PostMapping("/addpattern")
+    public ResponseEntity<ApiResponse> addToLib(@RequestParam String username, @RequestParam Integer pattern_id) {
+        //if username or patternId not found, throw error
+        if (Objects.equals(userRepository.findByUserName(username), null) || !patternRepository.existsById(pattern_id)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse("Username or pattern id not found", false));
         }
         //Find user
-        User user = userRepository.findById(user_id)
+        User user = userRepository.returnUser(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         //Find pattern
         Pattern pattern = patternRepository.findById(pattern_id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pattern not found"));
-        //Add reference between user and pattern
-        user.addPattern(pattern);
-        userRepository.save(user);
 
-
+        // Check if pattern already added to users library
+        if (userPatternRepository.patternExist(username, pattern_id)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new ApiResponse("Pattern is already in library", false));
+        } else {
+            //Add reference between user and pattern
+            user.addPattern(pattern);
+            userRepository.save(user);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(new ApiResponse("Pattern added to library", true));
+        }
     }
 
+    // Get patterns saved in user's library
+    @CrossOrigin
+    @GetMapping("/getpatterns")
+    public List<Optional<Pattern>> getUserPatterns(@RequestParam String username) {
+        // Find user
+        User user = userRepository.returnUser(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
+        // Find all pattern ids connected to user
+        List<Integer> userPatternIds = userPatternRepository.findByUserName(username);
+
+        // Add all patterns with users id to list of patterns to return to caller
+        if (!userPatternIds.isEmpty()) {
+            List<Optional<Pattern>> usersPatterns = new ArrayList<>();
+            for (Integer userPatternId : userPatternIds) {
+                Optional<Pattern> newPattern = patternRepository.findById(userPatternId);
+                usersPatterns.add(newPattern);
+            }
+            return usersPatterns;
+        } else {
+            return null;
+        }
+    }
+
+    // Get patterns created by user
+    @CrossOrigin
+    @GetMapping("/getcreatedpatterns")
+    public List<Pattern> getCreatedPatterns(@RequestParam String username) {
+        // Find user
+        User user = userRepository.returnUser(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        // Find all patterns created by user
+        return patternRepository.findCreatedByUserName(username);
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/deletepattern")
+    public ResponseEntity<ApiResponse> deletePattern(@RequestParam String username, Integer patternId) {
+        try {
+            userPatternRepository.deletePattern(username, patternId);
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new ApiResponse("Pattern deleted", true));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Pattern could not be deleted: " +e.getMessage(), false));
+        }
+    }
 }
 
