@@ -7,19 +7,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/userpattern")
 public class userPatternController {
 
-    private final UserPatternRepository repository;
+    private final UserPatternRepository userPatternRepository;
 
-    public userPatternController(UserPatternRepository repository) {
-        this.repository = repository;
+    public userPatternController(UserPatternRepository userPatternRepository) {
+        this.userPatternRepository = userPatternRepository;
     }
-    //Add new relation between user and pattern
+    // Return all patterns
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void add(@RequestBody UserPattern userPattern) {
-        repository.save(userPattern);
+        userPatternRepository.save(userPattern);
     }
 
     //Delete
@@ -27,9 +28,9 @@ public class userPatternController {
     @DeleteMapping("/{user_pattern_id}")
     public void delete(@PathVariable Integer user_pattern_id) {
         //thrown error if id not found
-        if(!repository.existsById(user_pattern_id)){
+        if(!userPatternRepository.existsById(user_pattern_id)){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "userpattern id not found");
         }
-        repository.deleteById(user_pattern_id);
+        userPatternRepository.deleteById(user_pattern_id);
     }
 }

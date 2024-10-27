@@ -2,8 +2,8 @@
 export default function RegisterButton({emailError, passError, dataBaseError, handleSubmit}) {
 
     if (emailError || passError || dataBaseError) {
-        return <button disabled>Register</button>
+        return <button className="button-disabled" disabled>Register</button>
     } else {
-        return <button onClick={handleSubmit}>Register</button>
+        return <button className="button" onClick={handleSubmit}>Register</button>
     }
 }

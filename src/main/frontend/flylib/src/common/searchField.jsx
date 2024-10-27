@@ -35,6 +35,7 @@ export default function SearchField({endpoint, setSearchInput, updateFilter}) {
 
     //Handel input in search field
     const handleSearch = (item, itemType) => {
+        setIsAddButtonDisabled(false)
         setSearchString(item);
         // If gallery is the parent component, update search filter
         if (updateFilter) {
@@ -53,9 +54,27 @@ export default function SearchField({endpoint, setSearchInput, updateFilter}) {
 
     //Add new item to list
     const handleAddButton = () => {
-        // If gallery is the parent component, update search filter with id of search string object
+        // Check if the searchString already has been added
+        if (searchString !== null && searchString !== "") {
+            // if string
+            if (typeof searchString === 'string') {
+                console.log("searchString is a string");
+                if (searchStringArray.some(item => item.toLowerCase() === searchString.toLowerCase())) {
+                    // return if already added
+                    return;
+                }
+                // if object
+            } else if (typeof searchString === 'object' && searchString !== null && 'name' in searchString) {
+                if (searchStringArray.some(item => item.toLowerCase() === searchString.name.toLowerCase())) {
+                    // return if already added
+                    return;
+                }
+            }
+        }
+
+        // If search filter provided (component has gallery as parent)
         if (updateFilter) {
-            // If parent component is gallery, only allow adding of existing materials
+            // If parent component is gallery, only allow adding of existing materials (objects)
             if(typeof searchString === 'object' && searchString !== null && 'id' in searchString) {
                 updateFilter(searchString.id, endpoint)
                 const updatedArray = [...searchStringArray, searchString.name];
@@ -63,27 +82,36 @@ export default function SearchField({endpoint, setSearchInput, updateFilter}) {
                 setSearchInput(updatedArray, endpoint);
             }
         } else {
-            //Add search string object name to array
-            const updatedArray = [...searchStringArray, searchString.name];
-            //Update states
+            // In other cases allow adding custom material strings
+            const updatedArray = [
+                ...searchStringArray,
+                typeof searchString === 'string' ? searchString : searchString.name,
+            ];
             setSearchStringArray(updatedArray);
             setSearchInput(updatedArray, endpoint);
         }
     }
     //Delete item from list
     const handleButtonClick = (value) => {
-        // filter out array element with same index as the button clicked
-        const filteredArray = searchStringArray.filter((element) => element.toLowerCase() !== value.toLowerCase());
-        // recreate object to send back to updateFilter
-        const filteredElement = searchStringArray.filter((element) => element.toLowerCase() === value.toLowerCase());
-        const filteredElementObject = availableData.filter((element) => element.name.toLowerCase() === filteredElement[0].toLowerCase());
-
-        //Update states
+        // Remove string from searchStringArray equal to value
+        const filteredArray = searchStringArray.filter(
+            (element) => element.toLowerCase() !== value.toLowerCase());
+        // Search for objects in searchString with name equal to value
+        const filteredObjectArray = availableData.filter(
+            (material) => material.name.toLowerCase() === value.toLowerCase());
         setSearchStringArray(filteredArray);
         setSearchInput(filteredArray, endpoint);
-        if (updateFilter) {
-            updateFilter(filteredElementObject[0].id, endpoint, "delete");
+
+        if (updateFilter && typeof filteredObjectArray[0] === 'object') {
+            // Call updateFilter when filteredElement has an id
+            updateFilter(filteredObjectArray[0].id, endpoint, "delete");
         }
+    };
+
+    // handling style change of autosearch field on hover
+    const [color, setColor] = useState("#292e37");
+    const styles = {
+
     }
 
 
@@ -91,13 +119,19 @@ export default function SearchField({endpoint, setSearchInput, updateFilter}) {
             <>
                 <div className="search-field">
                 <ReactSearchAutocomplete items={availableData} id={endpoint}
-                                          onSearch={(item) => handleSearch(item, endpoint)}
-                                          onSelect={(item) => handleSearch(item, endpoint)}
+                                         onSearch={(item) => handleSearch(item, endpoint)}
+                                         onSelect={(item) => handleSearch(item, endpoint)}
+                                         onMouseEnter={() => setColor("blue")}
+                                         onMouseLeave={() => setColor("#292e37")}
                                          styling={{
                                              height: '38px',
-                                             border: '1px solid #ccc',
+                                             border: '1px solid #213547',
+                                             color: "grey",
+                                             hoverBackgroundColor: "lightgrey",
                                              borderRadius: '4px',
-                                             color: 'black'
+                                             backgroundColor: "#292e37",
+                                             placeholderColor: "grey",
+                                             lineColor: "white",
                                          }}
                                          className="auto-search"
                                          placeholder={`Type in ${endpoint}`}
@@ -111,7 +145,11 @@ export default function SearchField({endpoint, setSearchInput, updateFilter}) {
                     )
                     }
 
-                    {searchStringArray.map((value) => <button className="delete-button" key={value} onClick={() =>handleButtonClick(value)}>{value}</button>)}
+                    {searchStringArray.map((value, index) => (
+                        <button className="delete-button" key={`${value}-${index}`} onClick={() => handleButtonClick(value)}>
+                            {value}
+                        </button>
+                    ))}
                 </div>
             </>
 

@@ -1,9 +1,15 @@
+import PatternAccordion from "./patternAccordion.jsx";
 
-export default function SavedPatternsTab() {
+export default function SavedPatternsTab({username}) {
 
     return (
         <>
-            <p>Insert list of all user's patterns</p>
+            <div>
+                <PatternAccordion
+                    username={username}
+                    typeOfView="savedPatterns"
+                />
+            </div>
         </>
     );
 }

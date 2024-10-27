@@ -1,0 +1,10 @@
+.list-of-material {
+    background-color: #213547;
+}
+.list-of-species {
+    background-color: #213547;
+}
+
+.accordion-item:hover {
+    background-color: cadetblue;
+}

@@ -1,0 +1,68 @@
+.form-container{
+    display: flex;
+    flex-direction: column;
+    max-width: 40em;
+}
+.rubric {
+    padding: 0.5em;
+}
+.login-form {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em;
+}
+
+.input {
+    background-color: #292e37;
+    color:grey;
+    border-style: solid;
+    border-color: transparent;
+    padding: 5px;
+    border-radius: 4px;
+    min-height: 3em;
+    min-width: 25em;
+    outline: none;
+    font-size: 16px;
+    font-family: Arial;
+    margin: 5px;
+}
+
+.input:hover {
+    border-color: blue;
+    box-shadow: rgba(32, 33, 36, 0.28) 0px 1px 6px 0px;
+}
+
+.label {
+    margin-bottom: 0.5em;
+
+    font-size: 1em;
+}
+
+.button {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    height: 4em;
+    font-size: 1em;
+}
+.button-disabled {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    height: 4em;
+    font-size: 1em;
+}
+
+.button:hover {
+    border-color: blue;
+    background-color: blue;
+}
+
+.button-disabled:hover {
+}
+
+.status-text-container {
+
+}
+.error-text {
+    font-size: 1em;
+    font-style: italic;
+}

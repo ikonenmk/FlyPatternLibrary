@@ -23,4 +23,8 @@ public interface PatternRepository extends ListCrudRepository<Pattern, Integer> 
     // Find flies by name
     @Query("select * from pattern p where p.name = :name")
     List<Pattern> findByName(@Param("name") String name);
+
+    // Find patterns based on created by username
+    @Query("select * from pattern p where p.created_by_user =:username")
+    List<Pattern> findCreatedByUserName(String username);
 }

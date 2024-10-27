@@ -105,7 +105,7 @@ export default function ImageUpload({fileRef}) {
                     ref={previewCanvasRef}
                 >
                 </canvas>
-                <input type="file" ref={fileRef} id="uploadButton" name="uploadButton" onInput={uploadImage} />
+                <input type="file" ref={fileRef} id="uploadButton" name="uploadButton"  onInput={uploadImage} />
             </div>
         </div>
     )

@@ -37,6 +37,7 @@ public class PatternController {
     }
 
     //Find all patterns in database
+    @CrossOrigin
     @GetMapping("/pattern/find")
     public List<Pattern> findAll() {
 
@@ -44,20 +45,23 @@ public class PatternController {
     }
 
     //Add a new pattern
+    @CrossOrigin
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping("/pattern")
     public void add(@RequestBody Pattern pattern, @RequestParam("speciesArray") String[] speciesArray, @RequestParam("materialsArray") String[] materialsArray) {
         //Add pattern to DB
         patternService.addPattern(pattern, speciesArray, materialsArray);
     }
 
     // Find a pattern based on id
+    @CrossOrigin
     @GetMapping("/pattern/{pattern_id}")
     public Optional<Pattern> findPattern(@PathVariable Integer pattern_id) {
         return patternRepository.findById(pattern_id);
     }
 
     //Delete a pattern
+    @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/pattern//{pattern_id}")
     public void delete(@PathVariable Integer pattern_id) {
@@ -69,6 +73,7 @@ public class PatternController {
     }
 
     //Update a pattern
+    @CrossOrigin
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/pattern/{pattern_id}")
     public void update(@RequestBody Pattern pattern, @PathVariable Integer pattern_id) {
@@ -84,12 +89,14 @@ public class PatternController {
     }
 
     //Find all types
+    @CrossOrigin
     @GetMapping("/pattern/types")
     public List<FlyTypeDTO> findAllTypes() {
         return patternService.findAllTypes();
     }
 
     // Endpoint for uploading image
+    @CrossOrigin
     @PostMapping("/pattern/uploadimage")
     public ResponseEntity<String> imageUpload(@RequestParam MultipartFile file) {
         try {
@@ -119,6 +126,7 @@ public class PatternController {
     }
 
     // Find by name
+    @CrossOrigin
     @GetMapping("/name")
     public List<Pattern> findAllNames() {
         return patternRepository.findAll();
