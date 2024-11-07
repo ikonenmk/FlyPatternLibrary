@@ -1,6 +1,6 @@
 .add-button-enabled,
 .add-button-disabled {
-    background-color: #213547;
+    background-color: gray;
     min-height: 40px;
     padding: 10px 15px;
     border: none;
@@ -18,7 +18,7 @@
     cursor: not-allowed;
 }
 .delete-button {
-    background-color: grey;
+    background-color: lightgray;
     min-height: 40px;
     padding: 10px 15px;
     border: none;

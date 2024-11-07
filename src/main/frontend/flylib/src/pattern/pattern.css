@@ -1,8 +1,7 @@
 .material-list {
     list-style-type: none;
     padding-left: 0px;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+    color: black;
 }
 
 .material-list li {
@@ -13,8 +12,7 @@
 .species-list {
     list-style-type: none;
     padding-left: 0px;
-    color: rgba(255, 255, 255, 0.87);
-    background-color: #242424;
+    color: black;
 }
 
 .species-list li {
@@ -23,11 +21,13 @@
 }
 
 .imgAndMaterialsContainer {
+    color: black;
     display: flex;
     flex-direction: column;
     margin-left: 1em;
 }
 .materialsContainer {
+    color: black;
     display:flex;
     flex-direction: column;
     margin-top: 0;
@@ -41,6 +41,7 @@
 
 .descriptionAndInstructionContainer {
     margin-left: 1em;
+    color: black;
 }
 
 .patternContainer {
@@ -54,12 +55,4 @@
 .patternContainer h2 {
     margin-left: 0;
     margin-bottom: 0;
-}
-
-.rubric {
-    background-image: url("../utils/banner.jpg");
-    background-color: cadetblue;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
 }

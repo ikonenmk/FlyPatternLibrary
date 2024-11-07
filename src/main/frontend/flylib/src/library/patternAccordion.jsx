@@ -170,25 +170,18 @@ export default function PatternAccordion({ username, typeOfView }) {
     const accordionItems = patterns.map((pattern, index) => {
         return (
             <Accordion
-                className="accordion-item"
+
                 key={index}
-                sx={{
-                    bgcolor: "#213547",
-                    color: "white",
-                }}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls={`panel${index}-content`}
                     id={`panel${index}-header`}
+                    className="accordion-item"
                 >
                     {pattern.name}
                 </AccordionSummary>
                 <AccordionDetails
-                    sx={{
-                        bgcolor: "#213547",
-                        color: "white",
-                    }}
                 >
                     <h1>{pattern.name}</h1>
                     <canvas

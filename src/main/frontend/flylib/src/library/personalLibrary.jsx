@@ -31,16 +31,6 @@ export default function PersonalLibrary() {
     }, []);
 
 
-    /** Constants **/
-    //Tabs array
-    const tabs = [
-        {title: "Saved Patterns", content: "Saved patterns", datakey: "test1"},
-        {title: "Created Patterns", content: "Created patterns", datakey:"test2"},
-        {title: "Orders", content: "Orders", datakey: "test3"}
-    ];
-
-    const user = useAuth();
-
     /** States **/
     const [activeTab, setActiveTab] = useState("savedPatternTab");
 
