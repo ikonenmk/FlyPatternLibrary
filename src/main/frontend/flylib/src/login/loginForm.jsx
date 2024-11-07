@@ -93,7 +93,7 @@ export default function LoginForm() {
                         value={password}
                         type="password"
                     />
-                    <button onClick={handleSubmit} className="button" type="submit">
+                    <button onClick={handleSubmit} className="login-button" type="submit">
                         Login
                     </button>
                 </form>

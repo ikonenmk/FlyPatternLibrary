@@ -15,9 +15,9 @@ create table if not exists authorities (
 CREATE TABLE IF NOT EXISTS pattern
     (
          id INT PRIMARY KEY AUTO_INCREMENT,
-         name VARCHAR(255) NOT NULL,
-         descr text NOT NULL,
-         instr text NOT NULL,
+         name VARCHAR(100) NOT NULL,
+         descr text(2000) NOT NULL,
+         instr text(2000) NOT NULL,
          hook_size_from INT NOT NULL,
          hook_size_to INT NOT NULL,
          type VARCHAR(150) NOT NULL,
@@ -39,12 +39,12 @@ CREATE TABLE IF NOT EXISTS user_pattern (
 
 CREATE TABLE IF NOT EXISTS species (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL
+    name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS material (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL
+    name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS pattern_material (

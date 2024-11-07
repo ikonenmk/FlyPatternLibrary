@@ -4,8 +4,8 @@
   font-weight: 500;
 
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  background-color: white;
+  border-color: grey;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -32,16 +32,17 @@ h1 {
   line-height: 1.1;
 }
 
-/* Set banner image */
+/* Set banner image
+*/
 
 .rubric {
+  padding: 0.5em;
   background-image: url("./utils/banner.jpg");
-  background-color: cadetblue;
+  background-color: #31511E;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
-
 
 
 @media (prefers-color-scheme: light) {

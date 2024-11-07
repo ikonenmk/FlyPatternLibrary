@@ -2,7 +2,7 @@ import {useRef, useState} from 'react';
 import "./imageUpload.css";
 import ImageResize from "../utils/imageResize.jsx";
 
-export default function ImageUpload({fileRef}) {
+export default function ImageUpload({fileRef, setFileChanged}) {
     // Allowed image types
     const allowedImageTypes = ['image/png', 'image/gif', 'image/jpeg', 'image/bmp']
     // Consts for handling to dropzone and change of style on dragging
@@ -29,6 +29,8 @@ export default function ImageUpload({fileRef}) {
         }
 
         if (files) {
+            // change value for FileChanged in parent component
+            setFileChanged(true);
             [...files].forEach((file, i) => {
                 // Check if file is of accepted image format
                 if (allowedImageTypes.includes(file.type)) {
@@ -85,9 +87,6 @@ export default function ImageUpload({fileRef}) {
         e.preventDefault();
     }
 
-    function onUploadClick(e) {
-        console.log("click click");
-    }
 
     return(
         <div
@@ -105,7 +104,7 @@ export default function ImageUpload({fileRef}) {
                     ref={previewCanvasRef}
                 >
                 </canvas>
-                <input type="file" ref={fileRef} id="uploadButton" name="uploadButton"  onInput={uploadImage} />
+                <input type="file" ref={fileRef} id="uploadButton" name="uploadButton" onInput={uploadImage} />
             </div>
         </div>
     )

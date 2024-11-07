@@ -278,7 +278,7 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
                     <fieldset className="name-fieldset">
                         <legend>Name</legend>
                         <div className="name-search-field">
-                            <SearchField endpoint="name" className="name-search-field" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
+                            <SearchField endpoint="name" setSearchInput={setSearchInput} updateFilter={updateFilter}/>
                         </div>
                     </fieldset>
                     <fieldset className="material-fieldset">
@@ -295,80 +295,61 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
                     </fieldset>
                 </div>
                 <div className="image-container">
-                    <ImageList sx={{minWidth: 200, maxWidth: 800, background: '#242424', borderStyle: 'solid',
-                        borderColor: '#213547'}} gap={0} cols={3}
+                    <ImageList sx={{minWidth: 200, maxWidth: 800, background: 'white', borderStyle: 'none',
+                        borderColor: '#213547'}} gap={3} cols={3}
                                rowHeight={164}>
                     {galleryItems.map((pattern) => (
-                            <ImageListItem key={pattern.id}>
+                            <ImageListItem
+                                key={pattern.id}
+
+                                className="gallery-image"
+                                >
                                 <img
                                     srcSet={`http://localhost:8080/images/${pattern.img_url}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
                                     src={`http://localhost:8080/images/${pattern.img_url}?w=164&h=164&fit=crop&auto=format`}
                                     alt={pattern.name}
                                     loading="lazy"
                                     id={pattern.id}
-                                    onMouseEnter={() => showButtons(pattern.id)}
-                                    onMouseLeave={() => hideButtons()}
                                     style={{
                                         width: '100%',
                                         height: '100%',
                                         objectFit: 'cover',
+                                        cursor: 'pointer'
                                     }}
+                                    onClick={() => onOpenClick(pattern.id)}
                                 />
-                                { hoveredImageId === pattern.id ? (
+
+
                                     <ImageListItemBar
-                                        position="bottom"
-                                        onMouseEnter={() => showButtons(pattern.id)}
-                                        onMouseLeave={() => hideButtons()}
-                                        sx={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            padding: '10px',
+                                        position="top"
+                                        title={pattern.name}
+                                        style={{
+                                            background: "rgba(128, 128, 128, 0.5)"
                                         }}
                                         actionIcon={
                                             <div className="iconContainer"
                                                  style={{
-                                                     display: 'flex',
-                                                     gap: '30px',
-                                                     position: 'absolute',
-                                                     left: '50%',
-                                                     top: '0px',
-                                                     transform: 'translateX(-50%)',
+                                                     background: "grey"
+
                                                  }}
                                             >
-                                                <IconButton
-                                                    aria-label={`open ${pattern.name}`}
-                                                    sx={{ color: 'white',
-                                                        '&:hover': {color: 'gray'}
-                                                    }}
-                                                    onClick={() => onOpenClick(pattern.id)}>
-                                                    Open
-                                                </IconButton>
-
                                                 {userStatus === 'authorized' ? (
-                                                <IconButton
-                                                    aria-label={`add ${pattern.name}`}
-                                                    sx={{ color: 'white',
-                                                        '&:hover': {color: 'gray'}
-                                                    }}
-                                                    onClick={() => onAddClick(pattern.id)}>
-                                                    Add
-                                                </IconButton>
-                                                    ) : ("")}
+                                                    <IconButton
+                                                        onClick={onAddClick()}
+                                                        aria-label={`add ${pattern.name}`}
+                                                        sx={{ color: 'white',
+                                                            '&:hover':
+                                                                {color: 'green', backgroundColor: 'transparent'},
+                                                            fontSize: '2em'
+                                                        }}
+                                                        onClick={() => onAddClick(pattern.id)}
+                                                        > +
+                                                    </IconButton>
+                                                ) : ("")}
                                             </div>
 
                                         }
                                     />
-                                ) : (
-                                    <ImageListItemBar
-                                        position="bottom"
-                                        title={pattern.name}
-                                        onMouseEnter={() => showButtons(pattern.id)}
-                                        onMouseLeave={() => hideButtons()}
-                                    />
-                                )
-
-                                }
 
                             </ImageListItem>
                         ))}

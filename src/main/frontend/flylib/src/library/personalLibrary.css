@@ -8,7 +8,8 @@
 .tabs {
     width: 40em;
     margin-bottom: 1em;
-    background-color: #213547;
+    background-color: black;
+    color: white;
 
 }
 
@@ -16,7 +17,7 @@
 
 .tabs button {
     color: white;
-    background-color: #213547;
+    background-color: black;
     border-right: none;
     border-left: none;
     border-top: none;
@@ -29,11 +30,12 @@
 }
 
 .tabs button:hover {
-    background-color: cadetblue;
+    background-color: white;
+    color: black;
 }
 
 .tabs button.active {
-    background-color: cadetblue;
+    background-color: white;
 }
 
 /* styling of tab content */
