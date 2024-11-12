@@ -113,7 +113,7 @@ export default function RegistrationForm() {
                     <h1>Register</h1>
             </div>
             {submitted ? (
-                <div>
+                <div className="status-text-container">
                     <h2>Successfully registered</h2>
                     <p className="status-text"> You have been registered. Please <Link to="/login">login</Link></p>
                 </div>
