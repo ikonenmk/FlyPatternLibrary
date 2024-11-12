@@ -8,30 +8,41 @@ export default function NavBarTop() {
     function toggleMenu() {
         setIsHamburgerMenuOpen(!isHamburgerMenuOpen);
     }
+    function menuItemClick() {
+        setIsHamburgerMenuOpen(false);
+    }
 
     return (
         <>
-        <div className="menu-container">
-            <nav className="menu">
-                <ul>
-                    <li><NavLink to="/"> Home </NavLink></li>
-                    <li><NavBarLoginButton/></li>
-                    <li><NavLink to="register"> Register </NavLink></li>
-                    <li><NavLink to="/create"> Upload a pattern </NavLink></li>
-                    <li><NavLink to="/library"> Library </NavLink></li>
-                </ul>
-            </nav>
-            <nav className="hamburger-menu">
-                 <ul className={`${isHamburgerMenuOpen ? 'hamburger-' : ''}nav`}>
-                    <li><NavLink to="/"> Home </NavLink></li>
-                    <li><NavBarLoginButton/></li>
-                    <li><NavLink to="register"> Register </NavLink></li>
-                    <li><NavLink to="/create"> Upload a pattern </NavLink></li>
-                                <li><NavLink to="/library"> Library </NavLink></li>
-                 </ul>
-            </nav>
-                <button className="hamburgerButton" onClick={toggleMenu}>Hamburger</button>
-        </div>
+            <div className="menu-container">
+                <nav className="large-menu">
+                    <ul>
+                        <li><NavLink to="/"> Home </NavLink></li>
+                        <li><NavBarLoginButton/></li>
+                        <li><NavLink to="register"> Register </NavLink></li>
+                        <li><NavLink to="/create"> Upload a pattern </NavLink></li>
+                        <li><NavLink to="/library"> Library </NavLink></li>
+                    </ul>
+                </nav>
+                <div className="hamburger-menu-container">
+                    <button className="hamburgerButton" onClick={toggleMenu}>
+                        <div className="line"></div>
+                        <div className="line"></div>
+                        <div className="line"></div>
+                    </button>
+                    <nav className={`${isHamburgerMenuOpen ? 'hamburger-' : 'no-'}menu`}>
+                        <ul>
+                            <li><NavLink to="/" onClick={menuItemClick}> Home </NavLink></li>
+                            <li onClick={menuItemClick}><NavBarLoginButton /></li>
+                            <li onClick={menuItemClick}><NavLink to="register"> Register </NavLink></li>
+                            <li onClick={menuItemClick}><NavLink to="/create"> Upload a pattern </NavLink></li>
+                            <li onClick={menuItemClick}><NavLink to="/library"> Library </NavLink></li>
+                        </ul>
+                    </nav>
+                </div>
+
+
+            </div>
         </>
     );
 }
