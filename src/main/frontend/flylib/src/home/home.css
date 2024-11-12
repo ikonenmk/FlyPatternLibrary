@@ -88,7 +88,10 @@ h1 {
     border-color: lightgray;
 }
 
+
+
 .gallery-image:hover {
-    border-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
     border-color: white;
 }

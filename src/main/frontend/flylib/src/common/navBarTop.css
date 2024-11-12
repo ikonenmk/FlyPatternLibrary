@@ -1,26 +1,102 @@
 
-ul.nav {
+.menu-container {
+    display: flex;
+    width: 100%;
+    background-color: black;
+}
+.menu {
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 4em;
+}
+.menu ul {
+    display: grid;
+    grid-auto-flow: column;
     list-style-type: none;
+    column-gap: 0;
     margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: black;
 
+
 }
 
-ul.nav li {
-    float: left;
+.menu ul li {
+    height: 100%;
+    display: flex;
+    align-items: center;
+
 }
 
-ul.nav li a {
-    display: block;
+.menu ul li a {
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    align-items: center;
     text-decoration: none;
 }
 
-ul.nav li a:hover {
+.menu ul li a:hover {
     background-color: white;
     color: black;
+}
+
+/* hamburger button and menu styling */
+.hamburgerButton {
+    display: none;
+}
+
+.hamburger-menu ul {
+    display: grid;
+    grid-auto-flow: row;
+    list-style-type: none;
+    column-gap: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: black;
+}
+
+.hamburger-menu ul li {
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+}
+
+.hamburger-menu ul li a {
+    color: white;
+    text-align: center;
+    padding: 16px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 768px) {
+    .menu {
+        display: none;
+    }
+    .hamburgerButton {
+        display: block;
+    }
+    }
+
+
+@media screen and (min-width: 769px) {
+    .hamburgerButton {
+        display: none;
+    }
+    .menu {
+        display: flex;
+    }
+    .hamburger-menu {
+
+    }
 }

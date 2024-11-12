@@ -242,7 +242,7 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
                         null,{headers: {Authorization: `Bearer ${token}`}})
                 console.log(response);
                 if(response.data.success) {
-                    alert(response.data.message); // Log success message
+                    alert(response.data.message);
                 }
             } catch (error) {
                 if (error.response) {
@@ -271,7 +271,7 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
     return (
         <>
             <div className="rubric">
-                <h1>Fly Pattern Database Search </h1>
+                    <h1>Pattern Search </h1>
             </div>
             <div className="gallery-container">
             <div className="filter-container">

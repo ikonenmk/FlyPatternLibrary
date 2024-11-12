@@ -57,9 +57,11 @@ export default function PersonalLibrary() {
             </div>
             <div className="tab-container">
                 <div className="tabs">
-                    <button data-key="savedPatternTab" className="tablinks" onClick={handleTabClick}>Saved patterns
+                    <button data-key="savedPatternTab" className="tablinks" onClick={handleTabClick}>
+                        Saved patterns
                     </button>
-                    <button data-key="createdPatternTab" className="tablinks" onClick={handleTabClick}>Created patterns
+                    <button data-key="createdPatternTab" className="tablinks" onClick={handleTabClick}>
+                        Created patterns
                     </button>
                 </div>
                 <div id="tabContent">
