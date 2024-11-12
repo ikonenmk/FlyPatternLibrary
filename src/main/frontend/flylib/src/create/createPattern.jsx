@@ -347,7 +347,11 @@ export default function CreatePattern() {
                     <legend>Type of fly</legend>
                     <select className="select-type" id="type"
                             onChange={(e) => handleInput(e)}
+                            defaultValue=""
                     >
+                        <option value="" disabled>
+                            Choose fly type
+                        </option>
                         {selectListData.map((type) =>
                             <option key={type} value={type}>{type}</option>
                         )}

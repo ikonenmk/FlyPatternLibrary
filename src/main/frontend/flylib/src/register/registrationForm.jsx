@@ -71,17 +71,7 @@ export default function RegistrationForm() {
             }
         }
     }
-    // Handling change of password
-    const handlePassword = async (e) => {
-        const password = e.target.value;
-        // Check if password is not empty, then validate
-        if (password !== "") {
-            setPassword(e.target.value.replace(/\s/g, '')); // replace whitespace
-            const passwordIsValid = await InputValidation(password, "password");
 
-        }
-
-    }
     //Handling form submission
     const handleSubmit = async (e) => {
         e.preventDefault();

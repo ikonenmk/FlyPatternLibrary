@@ -1,6 +1,6 @@
 create table if not exists users(
                       username VARCHAR (100) not null primary key,
-                      password VARCHAR(50) not null,
+                      password VARCHAR(150) not null,
                       enabled boolean not null
 );
 
@@ -9,6 +9,7 @@ create table if not exists authorities (
                              authority VARCHAR(50) not null,
                              constraint fk_authorities_users foreign key(username) references users(username)
 );
+
 /*Only run at first compile: create unique index ix_auth_username on authorities (username,authority);*/
 
 
@@ -33,7 +34,9 @@ CREATE TABLE IF NOT EXISTS pattern
 CREATE TABLE IF NOT EXISTS user_pattern (
     pattern INT NOT NULL ,
     users VARCHAR(100) NOT NULL,
-    primary key (pattern, users)
+    primary key (pattern, users),
+    FOREIGN KEY (pattern) REFERENCES pattern(id) ON DELETE CASCADE,
+    FOREIGN KEY (users) REFERENCES users(username) ON DELETE CASCADE
 
 );
 
@@ -50,13 +53,18 @@ CREATE TABLE IF NOT EXISTS material (
 CREATE TABLE IF NOT EXISTS pattern_material (
     material INT NOT NULL ,
     pattern INT NOT NULL,
-    PRIMARY KEY  (material, pattern)
+    PRIMARY KEY  (material, pattern),
+    FOREIGN KEY (material) REFERENCES material(id) ON DELETE CASCADE,
+    FOREIGN KEY (pattern) REFERENCES pattern(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS pattern_species (
     species INT NOT NULL ,
     pattern INT NOT NULL,
-    PRIMARY KEY (species, pattern)
+    PRIMARY KEY (species, pattern),
+    FOREIGN KEY (species) REFERENCES species(id) ON DELETE CASCADE,
+    FOREIGN KEY (pattern) REFERENCES pattern(id) ON DELETE CASCADE
+
 );
 
 CREATE TABLE IF NOT EXISTS user_order (
@@ -64,12 +72,13 @@ CREATE TABLE IF NOT EXISTS user_order (
     total_cost INT NOT NULL,
     date TIMESTAMP NOT NULL,
     user VARCHAR(100) NOT NULL,
-    FOREIGN KEY (user) REFERENCES users(username)
+    FOREIGN KEY (user) REFERENCES users(username) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS pattern_order (
     pattern INT NOT NULL,
     user_order INT NOT NULL,
-    PRIMARY KEY (pattern, user_order)
-
+    PRIMARY KEY (pattern, user_order),
+    FOREIGN KEY (pattern) REFERENCES pattern(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_order) REFERENCES user_order(id) ON DELETE CASCADE
 );
