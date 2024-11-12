@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS pattern
     (
          id INT PRIMARY KEY AUTO_INCREMENT,
          name VARCHAR(100) NOT NULL,
-         descr text(2000) NOT NULL,
-         instr text(2000) NOT NULL,
+         descr text(2000),
+         instr text(2000),
          hook_size_from INT NOT NULL,
          hook_size_to INT NOT NULL,
          type VARCHAR(150) NOT NULL,

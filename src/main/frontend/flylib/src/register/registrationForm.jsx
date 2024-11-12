@@ -4,6 +4,7 @@ import {InputValidation} from "../utils/inputValidation.jsx";
 import RegisterButton from "./registerButton.jsx";
 import {Link} from "react-router-dom";
 import "./register.css";
+import Cookies from "js-cookie";
 
 export default function RegistrationForm() {
 
@@ -69,7 +70,6 @@ export default function RegistrationForm() {
                     break;
             }
         }
-        console.log("emailerror = " +emailError +" passerror: " +passError+ " databaserror: "+dataBaseError);
     }
     // Handling change of password
     const handlePassword = async (e) => {
@@ -85,27 +85,34 @@ export default function RegistrationForm() {
     //Handling form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(username === "" || password === "") {
-            alert("No fields can be empty")
-            setSubmitted(false);
-        } else if (emailError || passError) {
-            alert("Please fill in the form according to error messages");
+        // Check if user has accepted cookies before proceeding
+        const hasAcceptedCookies = Cookies.get('consentCookie');
+        if (hasAcceptedCookies === 'true') {
+            if(username === "" || password === "") {
+                alert("No fields can be empty")
+                setSubmitted(false);
+            } else if (emailError || passError) {
+                alert("Please fill in the form according to error messages");
+            } else {
+                try {
+                    const registerNewUser = await axios.post('http://localhost:8080/api/user/register', {
+                        username: username, password: password
+                    });
+                    //Check response status of post
+                    if(registerNewUser.status === 201) {
+                        setSubmitted(true);
+                    } else {
+                        setDataBaseErrorMsg("Error: unexpected response from server");
+                    }
+                } catch (error) {
+                    console.error("An error occurred while sending request to register ", error);
+                    setDataBaseErrorMsg("Error: sending of request to server failed");
+                }
+            }
         } else {
-           try {
-               const registerNewUser = await axios.post('http://localhost:8080/api/user/register', {
-                   username: username, password: password
-               });
-               //Check response status of post
-               if(registerNewUser.status === 201) {
-                   setSubmitted(true);
-               } else {
-                   setDataBaseErrorMsg("Error: unexpected response from server");
-               }
-           } catch (error) {
-               console.error("An error occurred while sending request to register ", error);
-               setDataBaseErrorMsg("Error: sending of request to server failed");
-           }
+            alert("You must accept cookies in order to register");
         }
+
     }
     return (
         <>

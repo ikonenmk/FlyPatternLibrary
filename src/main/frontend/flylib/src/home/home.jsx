@@ -40,7 +40,6 @@ const [filter, setFilter] = useState([{
 
 
 const updateFilter = (newFilterItem, filterType, actionType) => {
-    console.log("actionType=", actionType);
     if (actionType === "delete") {
         // Delete item from filter
         if (filterType === 'material') {
@@ -97,7 +96,6 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
                         }];
                     });
                 } else { // if already in filter, do nothing
-                    console.log("items is already in filter");
                 }
                 break;
             case 'species':
@@ -111,9 +109,7 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
                                 species: [...(prevFilter[0].speciesFilter.species || []), newFilterItem]}
                         }]
                     });
-                    console.log("changed species filter to: " +newFilterItem);
                 } else { // if already in filter, do nothing
-                    console.log("item already in filter");
                 }
                 break;
         }
@@ -128,7 +124,6 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
             .get("http://localhost:8080/api/pattern/find")
             .then((response) => {
                 setPatterns(response.data);
-                console.log(patterns);
             })
             .catch((error) => {
                 console.log('Axios request error: ', error);
@@ -263,7 +258,6 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
     }
     function onOpenClick(patternId) {
         // Navigate to page for pattern with id
-        console.log("Click open");
         navigate(`/pattern/${patternId}`);
     }
 
@@ -335,7 +329,6 @@ const updateFilter = (newFilterItem, filterType, actionType) => {
                                             >
                                                 {userStatus === 'authorized' ? (
                                                     <IconButton
-                                                        onClick={onAddClick()}
                                                         aria-label={`add ${pattern.name}`}
                                                         sx={{ color: 'white',
                                                             '&:hover':

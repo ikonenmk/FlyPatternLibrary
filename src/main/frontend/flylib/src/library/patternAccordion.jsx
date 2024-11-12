@@ -39,8 +39,6 @@ export default function PatternAccordion({ username, typeOfView }) {
                 })
                 .then((response) => {
                     setPatterns(response.data || []);
-                    console.log("PATTERNS = ");
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.log("Axios request error: ", error);
@@ -78,16 +76,12 @@ export default function PatternAccordion({ username, typeOfView }) {
         try {
             // Get materials id
             const materialResponse = await axios.get(`http://localhost:8080/api/patternmaterial/${patternId}`);
-            console.log("MATERIALS :");
-            console.log(materialResponse.data);
 
             // Extract ids and convert to string
             const materialIds = materialResponse.data.map(item => item.material).join(',');
 
             // Get materials name
             const namesResponse = await axios.get(`http://localhost:8080/api/material/names/${materialIds}`);
-            console.log("MATERIAL NAMES: ");
-            console.log(namesResponse.data);
 
             // Return  material names
             return namesResponse.data; // Return the material names

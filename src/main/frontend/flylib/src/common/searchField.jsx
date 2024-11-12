@@ -58,7 +58,6 @@ export default function SearchField({endpoint, setSearchInput, updateFilter}) {
         if (searchString !== null && searchString !== "") {
             // if string
             if (typeof searchString === 'string') {
-                console.log("searchString is a string");
                 if (searchStringArray.some(item => item.toLowerCase() === searchString.toLowerCase())) {
                     // return if already added
                     return;

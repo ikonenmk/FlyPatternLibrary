@@ -24,7 +24,6 @@ export default function LoginForm() {
     // UseEffect hook to track changes to userStatus state
     useEffect(() => {
         if (userStatus === 'authorized') {
-            console.log("Navigating to /library");
             navigate("/library");
         }
     }, [userStatus, navigate]);
@@ -41,34 +40,36 @@ export default function LoginForm() {
     //Handling form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(username === "" || password === "") {
-            alert("No fields can be empty")
-        } else {
-            // Post request to backend
-            try {
-                const response = await axios.post('http://localhost:8080/api/auth/token', {
-                    username: username,
-                    password: password
-                });
-                // Create cookie storing JWT
-                const token = response.data;
-                Cookies.set('token', token, {expires: 7, secure: false, sameSite: 'lax'});
-                //Change userStatus in AuthContext
-                if (userStatus === 'unauthorized') {
-                    console.log("Dispatching login action");
-                    dispatch({ type: 'login' });
-                    console.log("Dispatched login action");
+        // Check if user has accepted cookies before proceeding
+        const hasAcceptedCookies = Cookies.get('consentCookie');
+        if (hasAcceptedCookies === 'true') {
+            if(username === "" || password === "") {
+                alert("No fields can be empty")
+            } else {
+                // Post request to backend
+                try {
+                    const response = await axios.post('http://localhost:8080/api/auth/token', {
+                        username: username,
+                        password: password
+                    });
+                    // Create cookie storing JWT
+                    const token = response.data;
+                    Cookies.set('token', token, {expires: 7, secure: false, sameSite: 'lax'});
+                    //Change userStatus in AuthContext
+                    if (userStatus === 'unauthorized') {
+                        dispatch({ type: 'login' });
+                    }
+                    navigate("/library");
+                } catch (error) {
+                    console.log("Error: " +error);
+                    setLoginError(true);
+                    setLoginErrorMsg("An error occured: " +error);
                 }
-                console.log("User status after check:", userStatus);
-
-                console.log("Navigating to /library");
-                navigate("/library");
-            } catch (error) {
-                console.log("Error: " +error);
-                setLoginError(true);
-                setLoginErrorMsg("An error occured: " +error);
             }
+        } else {
+            alert("You must accept the use of cookies to login");
         }
+
     }
 
     return (

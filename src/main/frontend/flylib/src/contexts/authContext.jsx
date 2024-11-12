@@ -31,11 +31,9 @@ export function AuthProvider({children}) {
     function userStatusReducer(userStatus, action) {
         switch (action.type) {
             case 'login': {
-                console.log("login from AuthContext: changing userstatus to authorized");
                 return 'authorized';
             }
             case 'logout': {
-                console.log("logout from AuthContext: changing userstatus to unauthorized");
                 return 'unauthorized';
             }
             default: {

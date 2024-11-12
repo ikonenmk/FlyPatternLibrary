@@ -36,8 +36,8 @@ export default function CreatePattern() {
         {hasError: true, errorType: "type", errorMsg: "This field cannot be empty"},
         {hasError: true, errorType: "hookSizeFrom", errorMsg: "This field cannot be empty"},
         {hasError: true, errorType: "hookSizeTo", errorMsg: "This field cannot be empty"},
-        {hasError: true, errorType: "description", errorMsg: "This field cannot be empty"},
-        {hasError: true, errorType: "instruction", errorMsg: "This field cannot be empty"},
+        {hasError: false, errorType: "description", errorMsg: ""},
+        {hasError: false, errorType: "instruction", errorMsg: ""},
         {hasError: true, errorType: "image", errorMsg: "Please chose an image file to upload"},
     ]);
     // Updating image error status
@@ -125,6 +125,53 @@ export default function CreatePattern() {
     }
 
     // Input validation
+
+    // Description and instruction input
+    const handleTextInput = async (e) => {
+        const inputString = e.target.value;
+        const inputType = e.target.id;
+
+        // Check is empty, if not validate input
+        if (inputString !== "") {
+            const inputIsValid = await InputValidation(inputString, inputType);
+            // If valid, set variables to input
+            if (inputIsValid === true) {
+                const newError = {hasError: false, errorType: inputType, errorMsg: ""};
+                const updatedErrors = errors.map(error => {
+                    if(error.errorType === inputType) {
+                        // change error specific to this type of input
+                        return newError;
+                    } else {
+                        // leave rest of error array unchanged
+                        return error;
+                    }
+                })
+                setErrors(updatedErrors);
+                // Check which type of input, then change variable
+                if (inputType === "description") {
+                    setDescription(inputString);
+                }
+                if (inputType === "instruction") {
+                    setInstruction(inputString);
+                }
+            }
+            else { // If validation fails, set error
+                const newError = {hasError: true, errorType: inputType, errorMsg: inputIsValid};
+                const updatedErrors = errors.map(error => {
+                    if(error.errorType === inputType) {
+                        // change error specific to this type of input
+                        return newError;
+                    } else {
+                        // leave rest of error array unchanged
+                        return error;
+                    }
+                })
+                setErrors(updatedErrors);
+            }
+        }
+    }
+
+    // All other input fields
     const handleInput = async (e) => {
         const inputString = e.target.value;
         const inputType = e.target.id;
@@ -211,8 +258,8 @@ export default function CreatePattern() {
         let imageUrl = "";
         // add chosen file to formData
         [...files].forEach((file) => {
-            // Transform name of file
-            const newFileName = Math.random().toString(36).slice(2) +"_"+ file.name.replaceAll(/\s/g ,"");
+            // Transform name of file to random and replace special characters and whitespace
+            const newFileName = Math.random().toString(36).slice(2) + "_" + file.name.replaceAll(/[^\w\s]/g, "").replaceAll(/\s/g, "");
             const newFile = new File([file], newFileName, {type: file.type});
             formData.append('file', newFile);
             imageUrl = newFile.name;
@@ -222,7 +269,6 @@ export default function CreatePattern() {
             const response = await axios.post(`http://localhost:8080/api/pattern/uploadimage`, formData, {
                 headers: {Authorization: `Bearer ${token}`},
             });
-            console.log("File uploaded");
              return imageUrl;
         } catch (error) {
                 console.error('Error uploading image:', error);
@@ -242,7 +288,6 @@ export default function CreatePattern() {
 
         //Create date and timestamp and convert to (java) LocalDateTime format
         const dateTime = new Date().toISOString();
-        console.log("Ok so setting all variables, imgUrl is: " +imgUrl);
         //User input data
         const patternData = {
             "name": patternName,
@@ -365,7 +410,7 @@ export default function CreatePattern() {
             </fieldset>
             <fieldset>
                 <legend>Description</legend>
-                <textarea className="form-textarea" id="description" onChange={(e) => handleInput(e)}></textarea>
+                <textarea className="form-textarea" id="description" onChange={(e) => handleTextInput(e)}></textarea>
                 {
                     errors.find((error) => error.errorType === "description").hasError ?
                         <p className="error-text">
@@ -377,7 +422,7 @@ export default function CreatePattern() {
             </fieldset>
             <fieldset>
                 <legend>Tying instructions</legend>
-                <textarea className="form-textarea" id="instruction" onChange={(e) => handleInput(e)}></textarea>
+                <textarea className="form-textarea" id="instruction" onChange={(e) => handleTextInput(e)}></textarea>
                 {
                     errors.find((error) => error.errorType === "instruction").hasError ?
                         <p className="error-text">

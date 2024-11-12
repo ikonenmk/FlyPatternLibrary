@@ -32,29 +32,31 @@ export default function ImageUpload({fileRef, setFileChanged}) {
             // change value for FileChanged in parent component
             setFileChanged(true);
             [...files].forEach((file, i) => {
-                // Check if file is of accepted image format
-                if (allowedImageTypes.includes(file.type)) {
-                    console.log("File is an image of type: " + file.type);
-
-                    // Change preview image to chosen image
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        // create imageElement object
-                        const img = new Image();
-                        img.src = e.target.result;
-                        // resize image
-                        img.onload = () => {
-                            const canvasWidth = dropZoneRef.current.offsetWidth;
-                            console.log("width = " + canvasWidth);
-                            const canvasHeight = dropZoneRef.current.offsetHeight;
-                            console.log("height = " + canvasHeight);
-                            const resizedImage = ImageResize(img, canvasWidth, canvasHeight, "previewCanvas");
-                            previewCanvasRef.current.style.backgroundImage = `url(${resizedImage})`;
-                        }
-                    }
-                    reader.readAsDataURL(file);
+                //Check file size
+                const fileSize = file.size / 1024;
+                if (fileSize > 10240) {
+                    alert("File size is too large, maximum 10 mb allowed.")
                 } else {
-                    console.log("File is not an image");
+                    // Check if file is of accepted image format
+                    if (allowedImageTypes.includes(file.type)) {
+                        // Change preview image to chosen image
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            // create imageElement object
+                            const img = new Image();
+                            img.src = e.target.result;
+                            // resize image
+                            img.onload = () => {
+                                const canvasWidth = dropZoneRef.current.offsetWidth;
+                                const canvasHeight = dropZoneRef.current.offsetHeight;
+                                const resizedImage = ImageResize(img, canvasWidth, canvasHeight, "previewCanvas");
+                                previewCanvasRef.current.style.backgroundImage = `url(${resizedImage})`;
+                            }
+                        }
+                        reader.readAsDataURL(file);
+                    } else {
+                        console.log("File is not an image");
+                    }
                 }
             });
         } else {
@@ -62,7 +64,6 @@ export default function ImageUpload({fileRef, setFileChanged}) {
         }
     }
     function onDropHandler(e) {
-        console.log("file dropped");
         e.preventDefault();
         setStyle("previewCanvas");
         uploadImage(e);
@@ -71,14 +72,12 @@ export default function ImageUpload({fileRef, setFileChanged}) {
     function onDragEnterHandler(e) {
         e.preventDefault();
         dragCounter.current += 1;
-        console.log("file is in dropzone");
         setStyle("previewCanvasDrag");
     }
 
     function onDragLeaveHandler(e) {
         e.preventDefault();
         dragCounter.current -= 1;
-        console.log("file is out of dropzone");
         if (dragCounter.current === 0) {
             setStyle("previewCanvas");
         }

@@ -18,21 +18,22 @@ export default function Pattern () {
     const [species, setSpecies] = useState([]);
     const [speciesNames, setSpeciesNames] = useState([]);
 
-    // För bild resizing
+    // Image resizing
     const patternCanvasRef = useRef();
     const [style, setStyle] = useState("patternCanvas");
     useEffect(() => {
-        const img = new Image();
-        img.src = `http://localhost:8080/images/${pattern.img_url}`;
-        img.onload = () => {
-            const canvasWidth = patternCanvasRef.current.offsetWidth;
-            console.log("width = " + canvasWidth);
-            const canvasHeight = patternCanvasRef.current.offsetHeight;
-            console.log("height = " + canvasHeight);
-            const resizedImage = ImageResize(img, canvasWidth, canvasHeight, "patternCanvas");
-            patternCanvasRef.current.style.backgroundImage = `url(${resizedImage})`;
+        if (pattern && pattern.img_url) {
+            const img = new Image();
+            img.src = `http://localhost:8080/images/${pattern.img_url}`;
+            img.onload = () => {
+                const canvasWidth = patternCanvasRef.current.offsetWidth;
+                const canvasHeight = patternCanvasRef.current.offsetHeight;
+                const resizedImage = ImageResize(img, canvasWidth, canvasHeight, "patternCanvas");
+                patternCanvasRef.current.style.backgroundImage = `url(${resizedImage})`;
+            }
         }
-    })
+
+    }, [pattern]);
 
     // Get pattern based on id
     useEffect(() => {
@@ -41,7 +42,6 @@ export default function Pattern () {
             .then((response) => {
                 if (response.data !== null) {
                     setPattern(response.data);
-                    console.log(response.data);
                 }
             })
             .catch((error) => {
@@ -155,15 +155,23 @@ export default function Pattern () {
                                 </ul>
                             </div>
                         </div>
+
                         <div className="descriptionAndInstructionContainer">
-                            <div className="descriptionContainer">
-                                <h2>Description:</h2>
-                                <p>{pattern.descr}</p>
-                            </div>
-                            <div className="instructionContainer">
-                                <h2>Tying instructions:</h2>
-                                <p>{pattern.instr}</p>
-                            </div>
+                            { pattern.descr !== "" ? (
+                                <div className="descriptionContainer">
+                                    <h2>Description:</h2>
+                                    <p>{pattern.descr}</p>
+                                </div>
+                            ) : (
+                                "")}
+
+                            { pattern.instr !== "" ? (
+                                <div className="instructionContainer">
+                                    <h2>Tying instructions:</h2>
+                                    <p>{pattern.instr}</p>
+                                </div>
+                            ) : (
+                                "")}
                         </div>
                     </div>
 

@@ -17,7 +17,7 @@ export default function NavBarTop() {
             <div className="menu-container">
                 <nav className="large-menu">
                     <ul>
-                        <li><NavLink to="/"> Home </NavLink></li>
+                        <li><NavLink to="/"> Search </NavLink></li>
                         <li><NavBarLoginButton/></li>
                         <li><NavLink to="register"> Register </NavLink></li>
                         <li><NavLink to="/create"> Upload a pattern </NavLink></li>
@@ -32,7 +32,7 @@ export default function NavBarTop() {
                     </button>
                     <nav className={`${isHamburgerMenuOpen ? 'hamburger-' : 'no-'}menu`}>
                         <ul>
-                            <li><NavLink to="/" onClick={menuItemClick}> Home </NavLink></li>
+                            <li><NavLink to="/" onClick={menuItemClick}> Search </NavLink></li>
                             <li onClick={menuItemClick}><NavBarLoginButton /></li>
                             <li onClick={menuItemClick}><NavLink to="register"> Register </NavLink></li>
                             <li onClick={menuItemClick}><NavLink to="/create"> Upload a pattern </NavLink></li>
