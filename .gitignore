@@ -33,7 +33,3 @@ build/
 .vscode/
 
 
-src/main/resources/certs/private.pem
-src/main/resources/certs/public.pem
-src/main/resources/application.properties
-src/main/frontend/flylib/deploy.sh
