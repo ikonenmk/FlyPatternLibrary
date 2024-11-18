@@ -38,3 +38,4 @@ src/main/resources/application.properties
 src/main/frontend/flylib/deploy.sh
 Dockerfile
 src/main/frontend/Dockerfile
+docker-compose.yml
