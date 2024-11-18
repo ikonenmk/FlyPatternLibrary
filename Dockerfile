@@ -21,7 +21,7 @@ FROM openjdk:8-jdk-alpine
 WORKDIR /backendapp
 
 # Copy build .jar file to image
-COPY --from=build /backendapp/target/*.jar app.jar
+COPY --from=build /backendapp/target/*.jar /app/app.jar
 
 # Expose port
 EXPOSE 8080
