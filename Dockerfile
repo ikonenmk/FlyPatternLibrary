@@ -1,5 +1,8 @@
-# Use Maven to build
-FROM maven:3.8.6-openjdk-21-slim AS build
+# Java version
+FROM openjdk:21-slim AS build
+
+# Install maven
+RUN apt-get update && apt-get install -y maven
 
 # Set the working directory
 WORKDIR /backendapp
