@@ -1,5 +1,5 @@
 # Use Maven to build
-FROM maven:3.8.6-openjdk-8-slim AS build
+FROM maven:3.8.6-openjdk-11-slim AS build
 
 # Set the working directory
 WORKDIR /backendapp
